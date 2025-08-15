@@ -1,0 +1,6 @@
+# Ignore file
+dev.yaml
+
+# Ignore folder
+db/
+docs/
