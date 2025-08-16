@@ -1,0 +1,25 @@
+from enum import Enum
+
+
+class Collection(str, Enum):
+    EYE_BANK_AUDIT_LOG = "eye_bank_audit_log"
+    EYE_BANK_DOCTOR = "eye_bank_doctor"
+    EYE_BANK_FORM = "eye_bank_form"
+    EYE_BANK_FORM_LINE = "eye_bank_form_line"
+    EYE_BANK_INTERN = "eye_bank_intern"
+    EYE_BANK_NURSE = "eye_bank_nurse"
+    EYE_BANK_PATIENT = "eye_bank_patient"
+    EYE_BANK_PATIENT_ORDER_EDUCATION = "eye_bank_patient_order_education"
+    HR_DEPARTMENT = "hr_department"
+    HR_EMPLOYEE = "hr_employee"
+    HR_JOB = "hr_job"
+    HR_JOB_LEVEL = "hr_job_level"
+    RES_COMPANY = "res_company"
+    RES_DOCTOR_SPECIALIZATION = "res_doctor_specialization"
+    RES_LOC_CITY = "res_loc_city"
+    RES_LOC_DISTRICT = "res_loc_district"
+    RES_LOC_PROVINCE = "res_loc_province"
+    RES_LOC_VILLAGE = "res_loc_village"
+    RES_PARTNER = "res_partner"
+    RES_TIMEZONE = "res_timezone"
+    RES_USER = "res_user"

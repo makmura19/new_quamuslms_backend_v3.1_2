@@ -1,0 +1,2 @@
+class FieldTypeHandlerError(Exception):
+    pass
