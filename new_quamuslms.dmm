@@ -7175,6 +7175,22 @@
 					"any": ""
 				},
 				{
+					"id": "a94fd8a4-8c2b-41fa-9434-ca880b84679e",
+					"name": "sequence",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"data": "",
+					"enum": "",
+					"validation": "",
+					"pattern": false,
+					"estimatedSize": "",
+					"any": ""
+				},
+				{
 					"id": "bbf0a509-d70d-4e21-a52f-2e048994b8a2",
 					"name": "is_template",
 					"datatype": "bool",
@@ -20154,7 +20170,7 @@
 		"def_validationAction": "na",
 		"def_collation": "",
 		"def_others": "",
-		"lastSaved": 1755601264794
+		"lastSaved": 1755601779012
 	},
 	"otherObjects": {},
 	"diagrams": {
@@ -20558,9 +20574,9 @@
 				},
 				"22da6de5-a255-4c74-b18e-d0553e8a39f1": {
 					"referencedItemId": "22da6de5-a255-4c74-b18e-d0553e8a39f1",
-					"x": 2504,
-					"y": 2942,
-					"gHeight": 243,
+					"x": 2478,
+					"y": 2914,
+					"gHeight": 261,
 					"gWidth": 213,
 					"color": "#000000",
 					"background": "#ffffff",
