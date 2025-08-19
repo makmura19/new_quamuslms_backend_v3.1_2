@@ -134,3 +134,14 @@ class ResUser(BaseModel):
             ).res_authority.ResAuthority(),
         },
     }
+
+    def get_holding_username(self, _id, code, name):
+        from utils.string_util import StringUtil
+
+        name = StringUtil.clean_text(name)
+        while True:
+            username = f"{code}_{StringUtil.get_initial(name)}{StringUtil.generate_code('nnnn')}"
+            data = self.find_one({"login": username})
+            if not data:
+                break
+        return username

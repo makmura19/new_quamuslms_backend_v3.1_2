@@ -6,6 +6,9 @@ from constants.params_validation_type import ParamsValidationType
 class CreateSerializer(BaseSerializer):
     code = serializers.CharField(required=True)
     name = serializers.CharField(required=True)
+    is_staff = serializers.BooleanField(required=True)
+    is_school = serializers.BooleanField(required=True)
+    is_holding = serializers.BooleanField(required=True)
 
     class Meta:
         validate_model = {}
@@ -13,6 +16,9 @@ class CreateSerializer(BaseSerializer):
 
 class UpdateSerializer(BaseSerializer):
     name = serializers.CharField(required=True)
+    is_staff = serializers.BooleanField(required=True)
+    is_school = serializers.BooleanField(required=True)
+    is_holding = serializers.BooleanField(required=True)
 
     class Meta:
         validate_model = {}

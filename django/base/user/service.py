@@ -96,7 +96,7 @@ class MainService(BaseService):
                 "school_id": user.school_id,
                 "holding_id": user.holding_id,
             }
-        elif Role.ADMINISTRATOR in user.authority:
+        elif Role.ADMINISTRATOR in user_roles:
             user_data = {
                 "name": "Administrator",
                 "email": user.email,
@@ -105,16 +105,17 @@ class MainService(BaseService):
             }
         else:
             res_user_data = res_user.find_one(
-                {"login": user.email}, convert_to_json=False
-            )
-            res_partner_data = res_partner.find_one(
-                {"_id": res_user_data.get("partner_id")}, convert_to_json=False
+                {"login": user.username}, convert_to_json=False
             )
             user_data = {
-                "name": res_partner_data.get("name"),
-                "email": res_user_data.get("login"),
-                "authority": user.authority.split(","),
-                "company_id": user.company_id,
+                "name": res_user_data.get("name"),
+                "username": res_user_data.get("login"),
+                "authority": user.role.split(","),
+                "company_id": (
+                    user.holding_id
+                    if res_user_data.get("is_holding")
+                    else user.school_id
+                ),
             }
 
         user_jwt = jwt.encode(user_data, settings.SECRET_KEY, algorithm="HS256")

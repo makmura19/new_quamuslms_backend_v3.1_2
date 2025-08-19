@@ -43,7 +43,7 @@ class SchoolSchoolData:
     program_ids: Optional[List[ObjectId]] = field(default_factory=list)
     dormitory_ids: Optional[List[ObjectId]] = field(default_factory=list)
     group_ids: Optional[List[ObjectId]] = field(default_factory=list)
-    tz: str
+    tz: Optional[str] = field(default="Asia/Jakarta")
     logo_sm: Optional[str] = field(default=None)
     logo_md: Optional[str] = field(default=None)
     logo_hd: Optional[str] = field(default=None)

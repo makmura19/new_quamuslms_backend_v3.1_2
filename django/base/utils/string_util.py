@@ -2,6 +2,7 @@ import random
 import string
 from datetime import datetime, date
 from dateutil import parser
+import re
 
 
 class StringUtil:
@@ -128,3 +129,25 @@ class StringUtil:
     def format_address(address):
         output = f"{address.get('street')} Ds. {address.get('village')} Kec. {address.get('district')} {address.get('city')}, {address.get('province')} {address.get('zipcode')}"
         return output
+
+    @staticmethod
+    def clean_text(text: str, to_lower: bool = True, keep_space: bool = True) -> str:
+        """
+        Membersihkan teks dari semua simbol & karakter non-alfanumerik.
+        Params:
+            text (str): input string
+            to_lower (bool): apakah hasilnya dijadikan huruf kecil
+            keep_space (bool): apakah spasi tetap dipertahankan
+        Returns:
+            str: teks bersih
+        """
+        if not text:
+            return ""
+
+        pattern = r"[^a-zA-Z0-9\s]" if keep_space else r"[^a-zA-Z0-9]"
+        cleaned = re.sub(pattern, "", text)
+
+        if to_lower:
+            cleaned = cleaned.lower()
+
+        return cleaned.strip()

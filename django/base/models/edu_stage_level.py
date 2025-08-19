@@ -52,4 +52,10 @@ class EduStageLevel(BaseModel):
                 "models.edu_stage_group"
             ).edu_stage_group.EduStageGroup(),
         },
+        "subjects": {
+            "local": "subject_ids",
+            "foreign": "_id",
+            "sort": None,
+            "model": lambda: __import__("models.edu_subject").edu_subject.EduSubject(),
+        },
     }

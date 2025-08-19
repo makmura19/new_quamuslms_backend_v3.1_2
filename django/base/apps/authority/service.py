@@ -8,11 +8,12 @@ from rest_framework.exceptions import ValidationError
 class MainService(BaseService):
     @staticmethod
     def create(model: ResAuthority, validated_data, extra, user, headers_dict=None):
-        print(validated_data)
         new_authority_data = ResAuthorityData(
             code=validated_data.get("code"),
             name=validated_data.get("name"),
-            is_school=True,
+            is_staff=validated_data.get("is_staff"),
+            is_school=validated_data.get("is_school"),
+            is_holding=validated_data.get("is_holding"),
         )
         SecurityValidator.validate_data(new_authority_data)
         result = model.insert_one(new_authority_data)

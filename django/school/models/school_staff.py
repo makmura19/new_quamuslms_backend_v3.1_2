@@ -13,7 +13,7 @@ class SchoolStaffData:
     _id: Optional[ObjectId] = field(default_factory=lambda: ObjectId())
     holding_id: Optional[ObjectId] = field(default=None)
     school_id: Optional[ObjectId] = field(default=None)
-    partner_id: ObjectId
+    partner_id: Optional[ObjectId] = field(default=None)
     payable_id: Optional[ObjectId] = field(default=None)
     cash_id: Optional[ObjectId] = field(default=None)
     balance: Optional[int] = field(default=0)
@@ -26,9 +26,9 @@ class SchoolStaffData:
 class SchoolStaffSchema(Schema):
     holding_id = ObjectIdField(required=False, allow_none=True)
     school_id = ObjectIdField(required=False, allow_none=True)
-    partner_id = ObjectIdField(required=True, allow_none=False)
-    payable_id = ObjectIdField(required=True, allow_none=False)
-    cash_id = ObjectIdField(required=True, allow_none=False)
+    partner_id = ObjectIdField(required=False, allow_none=True)
+    payable_id = ObjectIdField(required=False, allow_none=True)
+    cash_id = ObjectIdField(required=False, allow_none=True)
     balance = ma_fields.Integer(required=True)
     name = ma_fields.String(required=True)
     role_id = ObjectIdField(required=False, allow_none=True)
