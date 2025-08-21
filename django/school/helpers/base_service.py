@@ -7,7 +7,7 @@ audit_logger = logging.getLogger("audit")
 class BaseService:
 
     @staticmethod
-    def validate_create(value, _extra, secret, user):
+    def validate_create(value, _extra, secret, user, old_data=None):
         from utils.dict_util import DictUtil
 
         extra = {}
@@ -23,7 +23,7 @@ class BaseService:
         }
 
     @staticmethod
-    def validate_update(value, _extra, secret, user):
+    def validate_update(value, _extra, secret, user, old_data=None):
         from utils.dict_util import DictUtil
 
         extra = {}

@@ -25,6 +25,7 @@ class BaseSerializer(serializers.Serializer):
         secret=None,
         model=None,
         user=None,
+        old_data=None,
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
@@ -33,6 +34,7 @@ class BaseSerializer(serializers.Serializer):
         self.secret = secret
         self.model = model
         self.user = user
+        self.old_data = old_data
         self.validate_model = getattr(getattr(self, "Meta", None), "validate_model", {})
 
     def validate(self, value):
@@ -107,5 +109,5 @@ class BaseSerializer(serializers.Serializer):
 
         function_to_call = getattr(self.service, f"validate_{self.method_name}", None)
         if function_to_call:
-            return function_to_call(value, extra, self.secret, self.user)
+            return function_to_call(value, extra, self.secret, self.user, self.old_data)
         return {"value": value, "extra": extra}

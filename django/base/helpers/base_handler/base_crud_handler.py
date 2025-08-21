@@ -122,6 +122,7 @@ class BaseCRUDHandler:
                 method_name=method_name,
                 secret=secret,
                 user=request.user,
+                old_data=result,
             )
             if not serializer_instance.is_valid():
                 raise ValidationError(serializer_instance.errors)
