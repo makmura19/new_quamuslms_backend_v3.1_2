@@ -35,15 +35,16 @@ class SchoolStudentData:
     stage_group_id: Optional[ObjectId] = field(default=None)
     stage_id: Optional[ObjectId] = field(default=None)
     level_id: Optional[ObjectId] = field(default=None)
+    level_seq: Optional[int] = field(default=None)
     dormitory_id: Optional[ObjectId] = field(default=None)
     dormitory_room_id: Optional[ObjectId] = field(default=None)
     is_graduated: bool
     graduated_at: Optional[datetime] = field(default=None)
     qrcode: str
     pin: str
-    parent_balance: int
-    pocket_balance: int
-    pocket_treshold: int
+    parent_balance: Optional[int] = field(default=0)
+    pocket_balance: Optional[int] = field(default=0)
+    pocket_treshold: Optional[int] = field(default=0)
     main_va: Optional[str] = field(default=None)
     va_ids: Optional[List[ObjectId]] = field(default_factory=list)
     va_nos: Optional[List[str]] = field(default_factory=list)
@@ -53,6 +54,8 @@ class SchoolStudentData:
     phone: Optional[str] = field(default=None)
     quran_class_ids: Optional[List[ObjectId]] = field(default_factory=list)
     token: Optional[List[str]] = field(default_factory=list)
+    last_record_ids: Optional[List[ObjectId]] = field(default_factory=list)
+    is_active: Optional[bool] = field(default=True)
 
 
 class SchoolStudentSchema(Schema):
@@ -81,6 +84,7 @@ class SchoolStudentSchema(Schema):
     stage_group_id = ObjectIdField(required=False, allow_none=True)
     stage_id = ObjectIdField(required=False, allow_none=True)
     level_id = ObjectIdField(required=False, allow_none=True)
+    level_seq = ma_fields.Integer(required=False, allow_none=True)
     dormitory_id = ObjectIdField(required=False, allow_none=True)
     dormitory_room_id = ObjectIdField(required=False, allow_none=True)
     is_graduated = ma_fields.Boolean(required=True)
@@ -99,6 +103,8 @@ class SchoolStudentSchema(Schema):
     phone = ma_fields.String(required=False, allow_none=True)
     quran_class_ids = ma_fields.List(ObjectIdField(), required=True)
     token = ma_fields.List(ma_fields.String(), required=True)
+    last_record_ids = ma_fields.List(ObjectIdField(), required=True)
+    is_active = ma_fields.Boolean(required=True)
     _id = ObjectIdField(required=False, allow_none=True)
 
 

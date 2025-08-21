@@ -2629,6 +2629,22 @@
 					"fk": true
 				},
 				{
+					"id": "1eb47a3f-56a7-427f-9ad4-1b7ceaaaec5a",
+					"name": "is_active",
+					"datatype": "bool",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"data": "",
+					"enum": "",
+					"validation": "",
+					"pattern": false,
+					"estimatedSize": "",
+					"any": ""
+				},
+				{
 					"id": "981eeffb-a327-4135-98f6-2f03ef48b341",
 					"name": "is_deleted",
 					"datatype": "bool",
@@ -13137,6 +13153,22 @@
 				{
 					"id": "2e96f87d-8f43-45bb-bbd0-02ba5caee249",
 					"name": "is_deleted",
+					"datatype": "bool",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"data": "",
+					"enum": "",
+					"validation": "",
+					"pattern": false,
+					"estimatedSize": "",
+					"any": ""
+				},
+				{
+					"id": "c6383566-b44d-4f1d-9e78-e7d4a1d2ea2b",
+					"name": "is_active",
 					"datatype": "bool",
 					"param": "",
 					"pk": false,
@@ -23773,7 +23805,7 @@
 		"replaceSpace": "_",
 		"color": "transparent",
 		"sideSelections": true,
-		"isDirty": false,
+		"isDirty": true,
 		"storedin": {
 			"major": 7,
 			"minor": 4,
@@ -23793,7 +23825,7 @@
 		"def_validationAction": "na",
 		"def_collation": "",
 		"def_others": "",
-		"lastSaved": 1755692903314
+		"lastSaved": 1755762557849
 	},
 	"otherObjects": {},
 	"diagrams": {
@@ -23858,7 +23890,7 @@
 					"referencedItemId": "d7ddaf00-bcd8-4bf7-a7f3-d7cd0c63d5aa",
 					"x": 4243,
 					"y": 2236,
-					"gHeight": 873,
+					"gHeight": 891,
 					"gWidth": 270,
 					"color": "#000000",
 					"background": "#ffffff",
@@ -24555,7 +24587,7 @@
 					"referencedItemId": "e22effca-3267-4d0a-b04d-ab1d88d6c4ae",
 					"x": 5063,
 					"y": 5437,
-					"gHeight": 477,
+					"gHeight": 495,
 					"gWidth": 249,
 					"color": "#000000",
 					"background": "#ff9800",
