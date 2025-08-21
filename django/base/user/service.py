@@ -99,9 +99,9 @@ class MainService(BaseService):
         elif Role.ADMINISTRATOR in user_roles:
             user_data = {
                 "name": "Administrator",
-                "email": user.email,
-                "authority": user.authority.split(","),
-                "company_id": user.company_id,
+                "username": user.username.split("_")[1],
+                "authority": user_roles,
+                "school_id": user.school_id,
             }
         else:
             res_user_data = res_user.find_one(
@@ -111,11 +111,8 @@ class MainService(BaseService):
                 "name": res_user_data.get("name"),
                 "username": res_user_data.get("login"),
                 "authority": user.role.split(","),
-                "company_id": (
-                    user.holding_id
-                    if res_user_data.get("is_holding")
-                    else user.school_id
-                ),
+                "school_id": user.school_id,
+                "holding_id": user.holding_id,
             }
 
         user_jwt = jwt.encode(user_data, settings.SECRET_KEY, algorithm="HS256")

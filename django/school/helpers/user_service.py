@@ -5,6 +5,7 @@ from rest_framework.exceptions import NotFound, ValidationError, AuthenticationF
 import os
 from django.contrib.auth.hashers import make_password
 from models.authentication_user import AuthenticationUserData
+from typing import List
 
 
 class UserService:
@@ -22,22 +23,23 @@ class UserService:
         )
 
     @staticmethod
-    def bulk_create_users(data_list):
-        required_fields = ["company_id", "email", "password", "authority"]
+    def bulk_create_users(auth_data_list: List[AuthenticationUserData]):
+        if not auth_data_list:
+            raise ValidationError("auth_data_list tidak boleh kosong.")
+
         user_objects = []
 
-        for data in data_list:
-            for field in required_fields:
-                if field not in data:
-                    raise ValidationError(
-                        f"{field.capitalize()} is required for user creation."
-                    )
-
+        for auth_data in auth_data_list:
             user = User(
-                company_id=data["company_id"],
-                email=data["email"],
-                authority=data["authority"],
-                password=make_password(data["password"]),
+                school_id=auth_data.school_id,
+                holding_id=auth_data.holding_id,
+                school_code=auth_data.school_code,
+                username=auth_data.username,
+                role=auth_data.role,
+                is_staff=auth_data.is_staff,
+                is_active=auth_data.is_active,
+                is_company_active=auth_data.is_company_active,
+                password=make_password(auth_data.password),
             )
             user_objects.append(user)
 

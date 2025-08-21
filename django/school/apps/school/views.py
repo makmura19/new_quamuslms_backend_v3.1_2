@@ -1,22 +1,17 @@
-from models.school_holding import SchoolHolding
+from models.school_school import SchoolSchool
 from helpers.base_viewset import BaseViewSet
 from constants.access import Role
 from constants.params_validation_type import ParamsValidationType
 from constants.http_method import HTTPMethod
 
-from .serializers import (
-    CreateSerializer,
-    UploadLogoSerializer,
-    StaffSerializer,
-    UpdateSerializer,
-)
+from .serializers import CreateSerializer, UpdateSerializer, ActivateSerializer
 from .service import MainService
 
 
 class MainViewSet(BaseViewSet):
-    model = SchoolHolding()
+    model = SchoolSchool()
     service = MainService()
-    data_name = "SchoolHolding"
+    data_name = "SchoolSchool"
 
     actions = {
         "list": {
@@ -39,28 +34,43 @@ class MainViewSet(BaseViewSet):
             "serializer": UpdateSerializer,
             "roles": [Role.SUPERADMIN],
         },
-        "upload_logo": {
-            "detail": True,
-            "method": HTTPMethod.PUT,
-            "serializer": UploadLogoSerializer,
-            "roles": [Role.SUPERADMIN],
-        },
-        "staff": {
-            "detail": True,
-            "method": HTTPMethod.PUT,
-            "serializer": StaffSerializer,
-            "roles": [Role.SUPERADMIN],
-        },
         "destroy": {
             "method": HTTPMethod.DELETE,
+            "serializer": None,
+            "roles": [Role.SUPERADMIN],
+        },
+        "activate": {
+            "detail": True,
+            "method": HTTPMethod.PUT,
+            "serializer": ActivateSerializer,
+            "roles": [Role.SUPERADMIN],
+        },
+        "account": {
+            "detail": True,
+            "method": HTTPMethod.PUT,
+            "serializer": UpdateSerializer,
+            "roles": [Role.SUPERADMIN],
+        },
+        "module": {
+            "detail": True,
+            "method": HTTPMethod.PUT,
+            "serializer": UpdateSerializer,
+            "roles": [Role.SUPERADMIN],
+        },
+        "teacher_account": {
+            "detail": True,
+            "method": HTTPMethod.PUT,
             "serializer": None,
             "roles": [Role.SUPERADMIN],
         },
     }
 
     params_validation = {
+        "code": ParamsValidationType.STRING,
         "name": ParamsValidationType.STRING,
         "display_name": ParamsValidationType.STRING,
+        "npsn": ParamsValidationType.STRING,
         "module_codes": ParamsValidationType.STRING,
+        "group_ids": ParamsValidationType.OBJECT_ID,
         "is_active": ParamsValidationType.BOOLEAN,
     }

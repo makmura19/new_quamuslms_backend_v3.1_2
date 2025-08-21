@@ -41,17 +41,18 @@ class SchoolStudentData:
     graduated_at: Optional[datetime] = field(default=None)
     qrcode: str
     pin: str
-    parent_balance: Optional[int] = field(default=0)
-    pocket_balance: Optional[int] = field(default=0)
-    pocket_treshold: Optional[int] = field(default=0)
+    parent_balance: int
+    pocket_balance: int
+    pocket_treshold: int
     main_va: Optional[str] = field(default=None)
     va_ids: Optional[List[ObjectId]] = field(default_factory=list)
     va_nos: Optional[List[str]] = field(default_factory=list)
     unpaid_invoice_ids: Optional[List[ObjectId]] = field(default_factory=list)
-    unpaid_total: Optional[int] = field(default=0)
+    unpaid_total: int
     photo: Optional[str] = field(default=None)
     phone: Optional[str] = field(default=None)
     quran_class_ids: Optional[List[ObjectId]] = field(default_factory=list)
+    token: Optional[List[str]] = field(default_factory=list)
 
 
 class SchoolStudentSchema(Schema):
@@ -97,6 +98,7 @@ class SchoolStudentSchema(Schema):
     photo = ma_fields.String(required=False, allow_none=True)
     phone = ma_fields.String(required=False, allow_none=True)
     quran_class_ids = ma_fields.List(ObjectIdField(), required=True)
+    token = ma_fields.List(ma_fields.String(), required=True)
     _id = ObjectIdField(required=False, allow_none=True)
 
 

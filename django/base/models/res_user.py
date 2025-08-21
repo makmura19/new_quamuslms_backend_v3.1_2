@@ -7,6 +7,7 @@ from marshmallow import Schema, fields as ma_fields
 from helpers.base_model import BaseModel
 from helpers.custom_model_field import ObjectIdField
 from utils.dict_util import DictUtil
+from utils.string_util import StringUtil
 
 
 @dataclass(kw_only=True)
@@ -20,7 +21,9 @@ class ResUserData:
     merchant_id: Optional[ObjectId] = field(default=None)
     partner_id: Optional[ObjectId] = field(default=None)
     login: str
-    password: str
+    password: Optional[str] = field(
+        default_factory=lambda: StringUtil.generate_code("nnnnn")
+    )
     name: str
     authority_id: Optional[ObjectId] = field(default=None)
     authority_ids: Optional[List[ObjectId]] = field(default_factory=list)
@@ -137,11 +140,24 @@ class ResUser(BaseModel):
 
     def get_holding_username(self, _id, code, name):
         from utils.string_util import StringUtil
+        from bson import ObjectId
 
         name = StringUtil.clean_text(name)
         while True:
             username = f"{code}_{StringUtil.get_initial(name)}{StringUtil.generate_code('nnnn')}"
-            data = self.find_one({"login": username})
+            data = self.find_one({"holding_id": ObjectId(_id), "login": username})
+            if not data:
+                break
+        return username
+
+    def get_school_username(self, _id, code, name):
+        from utils.string_util import StringUtil
+        from bson import ObjectId
+
+        name = StringUtil.clean_text(name)
+        while True:
+            username = f"{code}_{StringUtil.get_initial(name)}{StringUtil.generate_code('nnnn')}"
+            data = self.find_one({"school_id": ObjectId(_id), "login": username})
             if not data:
                 break
         return username

@@ -1,22 +1,17 @@
-from models.school_holding import SchoolHolding
+from models.school_teacher import SchoolTeacher
 from helpers.base_viewset import BaseViewSet
 from constants.access import Role
 from constants.params_validation_type import ParamsValidationType
 from constants.http_method import HTTPMethod
 
-from .serializers import (
-    CreateSerializer,
-    UploadLogoSerializer,
-    StaffSerializer,
-    UpdateSerializer,
-)
+from .serializers import CreateSerializer, UpdateSerializer, InputXlsSerializer
 from .service import MainService
 
 
 class MainViewSet(BaseViewSet):
-    model = SchoolHolding()
+    model = SchoolTeacher()
     service = MainService()
-    data_name = "SchoolHolding"
+    data_name = "SchoolTeacher"
 
     actions = {
         "list": {
@@ -34,21 +29,20 @@ class MainViewSet(BaseViewSet):
             "serializer": CreateSerializer,
             "roles": [Role.SUPERADMIN],
         },
+        "input_xls": {
+            "method": HTTPMethod.POST,
+            "serializer": InputXlsSerializer,
+            "roles": [Role.SUPERADMIN],
+        },
         "update": {
             "method": HTTPMethod.PUT,
             "serializer": UpdateSerializer,
             "roles": [Role.SUPERADMIN],
         },
-        "upload_logo": {
+        "account": {
             "detail": True,
             "method": HTTPMethod.PUT,
-            "serializer": UploadLogoSerializer,
-            "roles": [Role.SUPERADMIN],
-        },
-        "staff": {
-            "detail": True,
-            "method": HTTPMethod.PUT,
-            "serializer": StaffSerializer,
+            "serializer": None,
             "roles": [Role.SUPERADMIN],
         },
         "destroy": {
@@ -60,7 +54,8 @@ class MainViewSet(BaseViewSet):
 
     params_validation = {
         "name": ParamsValidationType.STRING,
-        "display_name": ParamsValidationType.STRING,
-        "module_codes": ParamsValidationType.STRING,
+        "login": ParamsValidationType.STRING,
+        "staff_no": ParamsValidationType.STRING,
+        "resident_no": ParamsValidationType.STRING,
         "is_active": ParamsValidationType.BOOLEAN,
     }

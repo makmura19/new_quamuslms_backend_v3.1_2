@@ -1,22 +1,17 @@
-from models.school_holding import SchoolHolding
+from models.school_class import SchoolClass
 from helpers.base_viewset import BaseViewSet
 from constants.access import Role
 from constants.params_validation_type import ParamsValidationType
 from constants.http_method import HTTPMethod
 
-from .serializers import (
-    CreateSerializer,
-    UploadLogoSerializer,
-    StaffSerializer,
-    UpdateSerializer,
-)
+from .serializers import CreateSerializer, UpdateSerializer
 from .service import MainService
 
 
 class MainViewSet(BaseViewSet):
-    model = SchoolHolding()
+    model = SchoolClass()
     service = MainService()
-    data_name = "SchoolHolding"
+    data_name = "SchoolClass"
 
     actions = {
         "list": {
@@ -39,18 +34,6 @@ class MainViewSet(BaseViewSet):
             "serializer": UpdateSerializer,
             "roles": [Role.SUPERADMIN],
         },
-        "upload_logo": {
-            "detail": True,
-            "method": HTTPMethod.PUT,
-            "serializer": UploadLogoSerializer,
-            "roles": [Role.SUPERADMIN],
-        },
-        "staff": {
-            "detail": True,
-            "method": HTTPMethod.PUT,
-            "serializer": StaffSerializer,
-            "roles": [Role.SUPERADMIN],
-        },
         "destroy": {
             "method": HTTPMethod.DELETE,
             "serializer": None,
@@ -60,7 +43,8 @@ class MainViewSet(BaseViewSet):
 
     params_validation = {
         "name": ParamsValidationType.STRING,
-        "display_name": ParamsValidationType.STRING,
-        "module_codes": ParamsValidationType.STRING,
+        "school_id": ParamsValidationType.OBJECT_ID,
+        "academic_year_id": ParamsValidationType.OBJECT_ID,
+        "level_id": ParamsValidationType.OBJECT_ID,
         "is_active": ParamsValidationType.BOOLEAN,
-    }
+}

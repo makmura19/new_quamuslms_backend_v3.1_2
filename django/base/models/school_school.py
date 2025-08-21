@@ -32,7 +32,7 @@ class SchoolSchoolData:
     partner_id: ObjectId
     code: str
     name: str
-    display_name: str
+    display_name: Optional[str] = field(default="")
     npsn: str
     subject_ids: Optional[List[ObjectId]] = field(default_factory=list)
     module_ids: Optional[List[ObjectId]] = field(default_factory=list)
@@ -53,11 +53,11 @@ class SchoolSchoolData:
     config_tahfidz_id: Optional[ObjectId] = field(default=None)
     config_tashin_id: Optional[ObjectId] = field(default=None)
     config_pratahsin_id: Optional[ObjectId] = field(default=None)
-    config_va_ids: List[ObjectId]
+    config_va_ids: Optional[List[ObjectId]] = field(default_factory=list)
     join_date: Optional[datetime] = field(default=None)
     expired_at: Optional[datetime] = field(default=None)
-    staff_ids: List[ObjectId]
-    contact_ids: List[ObjectId]
+    staff_ids: Optional[List[ObjectId]] = field(default_factory=list)
+    contact_ids: Optional[List[ObjectId]] = field(default_factory=list)
     summary: Optional[SummaryData] = field(
         default_factory=lambda: {
             "parent_balance": 0,
@@ -342,3 +342,13 @@ class SchoolSchool(BaseModel):
             ).account_account.AccountAccount(),
         },
     }
+
+    def get_code(self):
+        from utils.string_util import StringUtil
+
+        while True:
+            code = StringUtil.generate_code("nnnnn")
+            data = self.find_one({"code": code})
+            if not data:
+                break
+        return code

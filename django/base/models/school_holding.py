@@ -179,3 +179,13 @@ class SchoolHolding(BaseModel):
             ).school_dormitory.SchoolDormitory(),
         },
     }
+
+    def get_code(self):
+        from utils.string_util import StringUtil
+
+        while True:
+            code = StringUtil.generate_code("nnnnn")
+            data = self.find_one({"code": code})
+            if not data:
+                break
+        return code

@@ -1,9 +1,10 @@
 from rest_framework import serializers
 from helpers.base_serializer import BaseSerializer
-from models.res_authority import ResAuthority
+from models.school_holding import SchoolHolding
+from models.edu_stage import EduStage
+from models.edu_stage_group import EduStageGroup
+from models.school_group import SchoolGroup
 from constants.params_validation_type import ParamsValidationType
-from models.school_school import SchoolSchool
-from helpers.custom_serializer_field import FileField, FILETYPEGROUP
 
 
 class AddressSerializer(serializers.Serializer):
@@ -16,19 +17,28 @@ class AddressSerializer(serializers.Serializer):
 
 
 class CreateSerializer(BaseSerializer):
+    stage_id = serializers.CharField(required=True)
     code = serializers.CharField(required=True, allow_blank=True)
     name = serializers.CharField(required=True)
-    address = AddressSerializer(required=True)
-    school_ids = serializers.ListField(
+    npsn = serializers.CharField(required=True)
+    group_ids = serializers.ListField(
         child=serializers.CharField(), required=False, allow_empty=True
     )
-    is_active = serializers.BooleanField(required=True)
+    tz = serializers.ChoiceField(
+        choices=["Asia/Jakarta", "Asia/Makasar", "Asia/Jayapura"]
+    )
+    address = AddressSerializer(required=True)
 
     class Meta:
         validate_model = {
-            "school_ids": {
+            "stage_id": {
                 "field": "_id",
-                "model": SchoolSchool(),
+                "model": EduStage(),
+                "type": ParamsValidationType.OBJECT_ID,
+            },
+            "group_ids": {
+                "field": "_id",
+                "model": SchoolGroup(),
                 "type": ParamsValidationType.OBJECT_IDS,
             },
         }
@@ -36,40 +46,32 @@ class CreateSerializer(BaseSerializer):
 
 class UpdateSerializer(BaseSerializer):
     name = serializers.CharField(required=True)
-    address = AddressSerializer(required=True)
-    school_ids = serializers.ListField(
+    npsn = serializers.CharField(required=True)
+    group_ids = serializers.ListField(
         child=serializers.CharField(), required=False, allow_empty=True
     )
-    is_active = serializers.BooleanField(required=True)
+    tz = serializers.ChoiceField(
+        choices=["Asia/Jakarta", "Asia/Makasar", "Asia/Jayapura"]
+    )
+    address = AddressSerializer(required=True)
 
     class Meta:
         validate_model = {
-            "school_ids": {
+            "stage_id": {
                 "field": "_id",
-                "model": SchoolSchool(),
+                "model": EduStage(),
+                "type": ParamsValidationType.OBJECT_ID,
+            },
+            "group_ids": {
+                "field": "_id",
+                "model": SchoolGroup(),
                 "type": ParamsValidationType.OBJECT_IDS,
             },
         }
 
 
-class UploadLogoSerializer(BaseSerializer):
-    file = FileField(
-        required=True, allowed_types=[*FILETYPEGROUP.IMAGE], max_size_mb=15
-    )
+class ActivateSerializer(BaseSerializer):
+    is_active = serializers.BooleanField(required=True)
 
     class Meta:
         validate_model = {}
-
-
-class StaffSerializer(BaseSerializer):
-    name = serializers.CharField(required=True)
-    role_id = serializers.CharField(required=True)
-
-    class Meta:
-        validate_model = {
-            "role_id": {
-                "field": "_id",
-                "model": ResAuthority(),
-                "type": ParamsValidationType.OBJECT_ID,
-            }
-        }

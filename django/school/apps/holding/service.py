@@ -3,30 +3,40 @@ from helpers.base_model import BaseModel
 from helpers.security_validator import SecurityValidator
 from rest_framework.exceptions import ValidationError
 from models.res_partner import ResPartner, ResPartnerData
-from models.school_holding import SchoolHoldingData
+from models.school_school import SchoolSchool
+from models.school_holding import SchoolHoldingData, SchoolHolding
 from bson import ObjectId
 
 
 class MainService(BaseService):
 
     @staticmethod
-    def create(model: BaseModel, validated_data, extra, user, headers_dict=None):
+    def create(model: SchoolHolding, validated_data, extra, user, headers_dict=None):
+        school_ids = [ObjectId(item) for item in validated_data.get("school_ids")]
+        code = validated_data.get("code")
+        if not code:
+            code = model.get_code()
         new_partner_data = ResPartnerData(
             name=validated_data.get("name"),
             address=validated_data.get("address"),
             is_holding=True,
         )
         new_holding_data = SchoolHoldingData(
-            code=validated_data.get("code"),
+            code=code,
             partner_id=new_partner_data._id,
             name=validated_data.get("name"),
             is_active=validated_data.get("is_active"),
+            school_ids=school_ids,
         )
 
         SecurityValidator.validate_data(new_partner_data, new_holding_data)
-
         ResPartner().insert_one(new_partner_data, user)
         result = model.insert_one(new_holding_data, user)
+        if school_ids:
+            SchoolSchool().update_many(
+                {"_id": {"$in": school_ids}},
+                {"holding_id": new_holding_data._id, "under_holding": True},
+            )
         return {
             "data": {"_id": str(result.inserted_id)},
             "message": None,
@@ -36,12 +46,12 @@ class MainService(BaseService):
     def update(
         model: BaseModel, _id, old_data, validated_data, extra, user, headers_dict=None
     ):
+        school_ids = [ObjectId(item) for item in validated_data.get("school_ids")]
         update_partner_data = {
             "name": validated_data.get("name"),
             "address": validated_data.get("address"),
         }
         update_holding_data = {
-            "code": validated_data.get("code"),
             "name": validated_data.get("name"),
             "is_active": validated_data.get("is_active"),
         }
@@ -53,6 +63,16 @@ class MainService(BaseService):
         model.update_one(
             {"_id": ObjectId(_id)}, update_data=update_holding_data, user=user
         )
+        if old_data.get("school_ids"):
+            SchoolSchool().update_many(
+                {"_id": {"$in": old_data.get("school_ids")}},
+                {"holding_id": None, "under_holding": False},
+            )
+        if school_ids:
+            SchoolSchool().update_many(
+                {"_id": {"$in": school_ids}},
+                {"holding_id": ObjectId(_id), "under_holding": True},
+            )
         return {
             "data": {"id": str(_id)},
             "message": None,
