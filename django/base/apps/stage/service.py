@@ -34,3 +34,17 @@ class MainService(BaseService):
             {"_id": old_data.get("group_id")}, pull_data={"stage_ids": [ObjectId(_id)]}
         )
         return {}
+
+    @staticmethod
+    def list(
+        model: BaseModel, query_params, params_validation, user, headers_dict=None
+    ):
+        result = model.aggregate(
+            add_metadata=True,
+            query_params=query_params,
+            params_validation=params_validation,
+            fields=query_params.get("fields"),
+            exclude=query_params.get("exclude"),
+            lookup=["group"],
+        )
+        return result
