@@ -4,7 +4,7 @@ from constants.access import Role
 from constants.params_validation_type import ParamsValidationType
 from constants.http_method import HTTPMethod
 
-from .serializers import CreateSerializer
+from .serializers import CreateSerializer, SequenceSerializer
 from .service import MainService
 
 
@@ -27,6 +27,11 @@ class MainViewSet(BaseViewSet):
         "create": {
             "method": HTTPMethod.POST,
             "serializer": CreateSerializer,
+            "roles": [Role.SUPERADMIN],
+        },
+        "sequence": {
+            "method": HTTPMethod.POST,
+            "serializer": SequenceSerializer,
             "roles": [Role.SUPERADMIN],
         },
         "update": {

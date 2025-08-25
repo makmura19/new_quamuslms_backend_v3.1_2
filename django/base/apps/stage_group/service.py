@@ -42,3 +42,10 @@ class MainService(BaseService):
             lookup=["stage", "level"],
         )
         return result
+
+    @staticmethod
+    def sequence(model: BaseModel, validated_data, extra, user, headers_dict=None):
+        model.update_sequence(validated_data.get("_ids"))
+        return {
+            "message": None,
+        }
