@@ -35,6 +35,20 @@ class MainService(BaseService):
             "data": {"_id": str(result.inserted_id)},
             "message": None,
         }
+        
+    @staticmethod
+    def list(
+        model: BaseModel, query_params, params_validation, user, headers_dict=None
+    ):
+        result = model.aggregate(
+            add_metadata=True,
+            query_params=query_params,
+            params_validation=params_validation,
+            fields=query_params.get("fields"),
+            exclude=query_params.get("exclude"),
+            lookup=["subjects"]
+        )
+        return result
 
     @staticmethod
     def validate_sequence(value, _extra, secret, user):
