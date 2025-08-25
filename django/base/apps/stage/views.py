@@ -41,4 +41,4 @@ class MainViewSet(BaseViewSet):
         },
     }
 
-    params_validation = {}
+    params_validation = {"group_id": ParamsValidationType.OBJECT_ID}
