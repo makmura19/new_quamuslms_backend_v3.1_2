@@ -4,7 +4,12 @@ from constants.access import Role
 from constants.params_validation_type import ParamsValidationType
 from constants.http_method import HTTPMethod
 
-from .serializers import CreateSerializer, UpdateSerializer, ActivateSerializer
+from .serializers import (
+    CreateSerializer,
+    UpdateSerializer,
+    ActivateSerializer,
+    UploadLogoSerializer,
+)
 from .service import MainService
 
 
@@ -61,6 +66,12 @@ class MainViewSet(BaseViewSet):
             "detail": True,
             "method": HTTPMethod.PUT,
             "serializer": None,
+            "roles": [Role.SUPERADMIN],
+        },
+        "upload_logo": {
+            "detail": True,
+            "method": HTTPMethod.PUT,
+            "serializer": UploadLogoSerializer,
             "roles": [Role.SUPERADMIN],
         },
     }

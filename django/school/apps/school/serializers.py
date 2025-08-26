@@ -5,6 +5,7 @@ from models.edu_stage import EduStage
 from models.edu_stage_group import EduStageGroup
 from models.school_group import SchoolGroup
 from constants.params_validation_type import ParamsValidationType
+from helpers.custom_serializer_field import FileField, FILETYPEGROUP
 
 
 class AddressSerializer(serializers.Serializer):
@@ -72,6 +73,15 @@ class UpdateSerializer(BaseSerializer):
 
 class ActivateSerializer(BaseSerializer):
     is_active = serializers.BooleanField(required=True)
+
+    class Meta:
+        validate_model = {}
+
+
+class UploadLogoSerializer(BaseSerializer):
+    file = FileField(
+        required=True, allowed_types=[*FILETYPEGROUP.IMAGE], max_size_mb=15
+    )
 
     class Meta:
         validate_model = {}

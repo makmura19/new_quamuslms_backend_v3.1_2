@@ -272,3 +272,19 @@ class MainService(BaseService):
             "data": {"id": str(_id)},
             "message": None,
         }
+
+    @staticmethod
+    def upload_logo(
+        model: BaseModel, _id, old_data, validated_data, extra, user, headers_dict=None
+    ):
+        from utils.file_storage_util import FileStorageUtil
+
+        url = FileStorageUtil.upload_aws(validated_data.get("file"), "school_logo")
+        if not url:
+            raise ValidationError("Upload logo gagal.")
+        update_data = {"logo_md": url[0]}
+        model.update_one({"_id": ObjectId(_id)}, update_data, user=user)
+        return {
+            "data": {"id": str(_id)},
+            "message": None,
+        }
