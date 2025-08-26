@@ -53,6 +53,7 @@ class MainViewSet(BaseViewSet):
     }
 
     params_validation = {
+        "school_id": ParamsValidationType.OBJECT_ID,
         "name": ParamsValidationType.STRING,
         "login": ParamsValidationType.STRING,
         "staff_no": ParamsValidationType.STRING,

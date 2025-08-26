@@ -105,9 +105,23 @@ class MainService(BaseService):
         model: BaseModel, query_params, params_validation, user, headers_dict=None
     ):
         from constants.aggregation import FieldType
+        from constants.access import Role, SCHOOL_ROLES, HOLDING_ROLES, STAFF_ROLES
+
+        query = {}
+
+        if any(role in user.role.split(",") for role in HOLDING_ROLES):
+            from models.school_holding import SchoolHolding
+
+            holding_data = SchoolHolding().find_one({"_id": ObjectId(user.holding_id)})
+            query["_id"] = {
+                "$in": [ObjectId(item) for item in holding_data.get("school_ids")]
+            }
+        elif any(role in user.role.split(",") for role in SCHOOL_ROLES):
+            query["_id"] = {"$in": [ObjectId(user.school_id)]}
 
         result = model.aggregate(
             add_metadata=True,
+            query=query,
             query_params=query_params,
             params_validation=params_validation,
             fields=query_params.get("fields"),

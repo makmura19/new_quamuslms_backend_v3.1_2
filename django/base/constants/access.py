@@ -47,6 +47,10 @@ class Role(str, Enum):
     HOLDING_CASHIER = "holding_cashier"
 
 
+STAFF_ROLES: Set[str] = {
+    Role.SUPERADMIN.value,
+}
+
 SCHOOL_ROLES: Set[str] = {
     Role.ADMINISTRATOR.value,
     Role.STUDENT.value,
