@@ -13,7 +13,11 @@ class MainService(BaseService):
     def create(model: BaseModel, validated_data, extra, user, headers_dict=None):
         existing = model.find({})
         new_data = EduStageLevelData(
-            degree_id=ObjectId(validated_data.get("degree_id")),
+            degree_id=(
+                ObjectId(validated_data.get("degree_id"))
+                if validated_data.get("degree_id")
+                else None
+            ),
             group_id=ObjectId(validated_data.get("group_id")),
             name=validated_data.get("name"),
             sequence=len(existing) + 1,

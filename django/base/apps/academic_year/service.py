@@ -106,7 +106,7 @@ class MainService(BaseService):
             else:
                 pass
 
-        fields = MainService.fields(validated_data.get("year"))
+        fields = MainService.create__fields(validated_data.get("year"))
         fields["semester_ids"] = existing_id["semester_ids"]
 
         update_data = {
@@ -119,10 +119,10 @@ class MainService(BaseService):
             {
                 "_id": i,
                 "set_data": {
-                    "start_date": MainService.semester_range(
+                    "start_date": MainService.create__semester_range(
                         validated_data.get("year"), idx + 1
                     ).get("start_date"),
-                    "end_date": MainService.semester_range(
+                    "end_date": MainService.create__semester_range(
                         validated_data.get("year"), idx + 1
                     ).get("end_date"),
                 },
