@@ -8,7 +8,7 @@ from models.edu_stage_level import EduStageLevel
 class MainService(BaseService):
     
     @staticmethod
-    def validate_create(value, _extra, secret, user):
+    def validate_create(value, _extra, secret, user, old_data=None):
         from utils.dict_util import DictUtil
         
         if EduSubject().find_one({"name": value.get("name")}):
@@ -29,10 +29,10 @@ class MainService(BaseService):
         )
         SecurityValidator.validate_data(new_data)
         
-        result = model.insert_one(new_data, user)
+        # result = model.insert_one(new_data, user)
         
         return {
-            "data": {"_id": str(result.inserted_id)},
+            # "data": {"_id": str(result.inserted_id)},
             "message": None,
         }
 

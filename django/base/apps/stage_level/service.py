@@ -46,7 +46,7 @@ class MainService(BaseService):
             params_validation=params_validation,
             fields=query_params.get("fields"),
             exclude=query_params.get("exclude"),
-            lookup=["subjects"]
+            lookup=["degree","group","subjects"]
         )
         return result
 
