@@ -35,7 +35,7 @@ class MainService(BaseService):
             "data": {"_id": str(result.inserted_id)},
             "message": None,
         }
-        
+
     @staticmethod
     def list(
         model: BaseModel, query_params, params_validation, user, headers_dict=None
@@ -46,12 +46,12 @@ class MainService(BaseService):
             params_validation=params_validation,
             fields=query_params.get("fields"),
             exclude=query_params.get("exclude"),
-            lookup=["degree","group","subjects"]
+            lookup=["degree", "group", "subjects"],
         )
         return result
 
     @staticmethod
-    def validate_sequence(value, _extra, secret, user):
+    def validate_sequence(value, _extra, secret, user, old_data=None):
         from utils.dict_util import DictUtil
 
         for i in _extra.get("edu_stage_level"):
