@@ -46,8 +46,53 @@ class MainService(BaseService):
             params_validation=params_validation,
             fields=query_params.get("fields"),
             exclude=query_params.get("exclude"),
-            lookup=["school"],
+            lookup=["school", "user"],
         )
+        response_type = query_params.get("response_type")
+        if response_type in ["xlsx"]:
+            from helpers.openpyxl_helper import OpenpxlHelper
+
+            export_data = [["No", "Nama", "NIP", "NIK", "username", "password"]]
+            export_setting = [
+                "w-5 text-center",
+                "w-40",
+                "w-25 center",
+                "w-25 center",
+                "w-20 center",
+                "w-20 center",
+            ]
+            for idx, item in enumerate(result["data"], start=1):
+                export_data.append(
+                    [
+                        idx,
+                        item.get("name", ""),
+                        item.get("staff_no", ""),
+                        item.get("resident_no", ""),
+                        (
+                            item.get("user_info").get("login").split("_")[1]
+                            if item.get("user_id")
+                            else "-"
+                        ),
+                        (
+                            item.get("user_info").get("password")
+                            if item.get("user_id")
+                            else "-"
+                        ),
+                    ]
+                )
+
+            export_kwargs = {
+                "data": export_data,
+                "setting": export_setting,
+                "filename": "teacher",
+                "title": "Data Guru",
+            }
+
+            helper_class = {
+                "xlsx": OpenpxlHelper,
+            }.get(response_type)
+
+            return helper_class(**export_kwargs).response
         return result
 
     @staticmethod

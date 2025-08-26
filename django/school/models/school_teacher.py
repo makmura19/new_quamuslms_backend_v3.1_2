@@ -64,6 +64,7 @@ class SchoolTeacher(BaseModel):
         "user": {
             "local": "user_id",
             "foreign": "_id",
+            "fields": "_id,login,password",
             "sort": None,
             "model": lambda: __import__("models.res_user").res_user.ResUser(),
         },

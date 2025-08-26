@@ -10,7 +10,7 @@ class CreateSerializer(BaseSerializer):
     name = serializers.CharField(required=True)
     staff_no = serializers.CharField(required=True, allow_blank=True)
     resident_no = serializers.CharField(required=True, allow_blank=True)
-    birth_date = DateTimeField()
+    birth_date = DateTimeField(allow_null=True)
     birth_place = serializers.CharField(required=True, allow_blank=True)
     is_active = serializers.BooleanField(required=True)
 
@@ -28,7 +28,7 @@ class UpdateSerializer(BaseSerializer):
     name = serializers.CharField(required=True)
     staff_no = serializers.CharField(required=True, allow_blank=True)
     resident_no = serializers.CharField(required=True, allow_blank=True)
-    birth_date = DateTimeField()
+    birth_date = DateTimeField(allow_null=True)
     birth_place = serializers.CharField(required=True, allow_blank=True)
     is_active = serializers.BooleanField(required=True)
 
