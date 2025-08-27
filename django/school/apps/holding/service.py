@@ -9,7 +9,6 @@ from bson import ObjectId
 
 
 class MainService(BaseService):
-
     @staticmethod
     def create(model: SchoolHolding, validated_data, extra, user, headers_dict=None):
         school_ids = [ObjectId(item) for item in validated_data.get("school_ids")]
@@ -98,7 +97,7 @@ class MainService(BaseService):
             params_validation=params_validation,
             fields=query_params.get("fields"),
             exclude=query_params.get("exclude"),
-            lookup=["partner", "staffs"],
+            lookup=["partner", "staffs", "schools"],
             additional_fields={
                 "complete_address": {
                     "type": FieldType.CONCAT,

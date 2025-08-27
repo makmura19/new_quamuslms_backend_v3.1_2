@@ -81,6 +81,7 @@ class SchoolSchoolData:
     implement_status: Optional[str] = field(default=None)
     subscription_status: Optional[str] = field(default=None)
     is_client: Optional[bool] = field(default=False)
+    extracurricular_ids: Optional[List[ObjectId]] = field(default_factory=list)
     is_active: Optional[bool] = field(default=False)
 
 
@@ -162,6 +163,7 @@ class SchoolSchoolSchema(Schema):
         ),
     )
     is_client = ma_fields.Boolean(required=True)
+    extracurricular_ids = ma_fields.List(ObjectIdField(), required=True)
     is_active = ma_fields.Boolean(required=True)
     _id = ObjectIdField(required=False, allow_none=True)
 
@@ -309,7 +311,9 @@ class SchoolSchool(BaseModel):
             "local": "config_va_ids",
             "foreign": "_id",
             "sort": None,
-            "model": lambda: __import__("models.config_va").config_va.ConfigVa(),
+            "model": lambda: __import__(
+                "models.finance_va_config"
+            ).finance_va_config.FinanceVaConfig(),
         },
         "staffs": {
             "local": "staff_ids",
@@ -340,6 +344,12 @@ class SchoolSchool(BaseModel):
             "model": lambda: __import__(
                 "models.account_account"
             ).account_account.AccountAccount(),
+        },
+        "extracurriculars": {
+            "local": "extracurricular_ids",
+            "foreign": "_id",
+            "sort": None,
+            "model": lambda: __import__("models.edu_degree").edu_degree.EduDegree(),
         },
     }
 

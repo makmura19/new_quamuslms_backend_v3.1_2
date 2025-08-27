@@ -144,7 +144,9 @@ class SchoolHolding(BaseModel):
             "local": "config_va_ids",
             "foreign": "_id",
             "sort": None,
-            "model": lambda: __import__("models.config_va").config_va.ConfigVa(),
+            "model": lambda: __import__(
+                "models.finance_va_config"
+            ).finance_va_config.FinanceVaConfig(),
         },
         "modules": {
             "local": "module_ids",
