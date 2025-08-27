@@ -17,6 +17,7 @@ class SchoolSubjectData:
     short_name: str
     image: Optional[str] = field(default=None)
     treshold: int
+    sequence: int
     is_template: Optional[bool] = field(default=False)
     is_active: Optional[bool] = field(default=True)
 
@@ -28,6 +29,7 @@ class SchoolSubjectSchema(Schema):
     short_name = ma_fields.String(required=True)
     image = ma_fields.String(required=False, allow_none=True)
     treshold = ma_fields.Integer(required=True)
+    sequence = ma_fields.Integer(required=True)
     is_template = ma_fields.Boolean(required=True)
     is_active = ma_fields.Boolean(required=True)
     _id = ObjectIdField(required=False, allow_none=True)

@@ -125,7 +125,9 @@ class SchoolClass(BaseModel):
             "local": "level_id",
             "foreign": "_id",
             "sort": None,
-            "model": lambda: __import__("models.edu_level").edu_level.EduLevel(),
+            "model": lambda: __import__(
+                "models.edu_stage_level"
+            ).edu_stage_level.EduStageLevel(),
         },
         "mutabaah_rules": {
             "local": "mutabaah_rule_ids",

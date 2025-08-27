@@ -181,6 +181,8 @@ class OpenpxlHelper:
             cell.font = Font(size=14, bold=True)
             cell.alignment = Alignment(horizontal="center")
             current_row += 1
+        else:
+            current_row -= 1
 
         self.ws.row_dimensions[current_row].height = 8
         current_row += 1

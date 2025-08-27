@@ -16,8 +16,8 @@ class SchoolStudentData:
     school_id: ObjectId
     name: str
     gender: str
-    nis: str
-    nisn: str
+    nis: Optional[str] = field(default="")
+    nisn: Optional[str] = field(default="")
     user_id: Optional[ObjectId] = field(default=None)
     login: Optional[str] = field(default=None)
     class_academic_year_id: Optional[ObjectId] = field(default=None)

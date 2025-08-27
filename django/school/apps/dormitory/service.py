@@ -10,7 +10,7 @@ from bson import ObjectId
 
 class MainService(BaseService):
     @staticmethod
-    def validate_create(value, _extra, secret, user):
+    def validate_create(value, _extra, secret, user, old_data=None):
         from utils.dict_util import DictUtil
 
         if value.get("school_id") and value.get("holding_id"):
@@ -20,8 +20,6 @@ class MainService(BaseService):
 
     @staticmethod
     def create(model: BaseModel, validated_data, extra, user, headers_dict=None):
-        print(extra)
-        print(validated_data)
         new_dormitory_data = SchoolDormitoryData(
             holding_id=ObjectId(validated_data.get("holding_id")),
             school_id=ObjectId(validated_data.get("holding_id")),
@@ -78,6 +76,6 @@ class MainService(BaseService):
             params_validation=params_validation,
             fields=query_params.get("fields"),
             exclude=query_params.get("exclude"),
-            # lookup=["holding","school","schools","staffs","rooms"]
+            lookup=["holding","school","schools","staffs","rooms"]
         )
         return result

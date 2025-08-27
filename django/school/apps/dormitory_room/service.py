@@ -48,6 +48,6 @@ class MainService(BaseService):
             params_validation=params_validation,
             fields=query_params.get("fields"),
             exclude=query_params.get("exclude"),
-            lookup=["dormitory"],
+            lookup=["dormitory","student","holding","school"],
         )
         return result

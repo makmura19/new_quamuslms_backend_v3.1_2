@@ -28998,6 +28998,22 @@
 					"any": ""
 				},
 				{
+					"id": "647a3dae-74ce-4c1f-a0d5-f28dc0cf8eeb",
+					"name": "date",
+					"datatype": "date",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"data": "",
+					"enum": "",
+					"validation": "",
+					"pattern": false,
+					"estimatedSize": "",
+					"any": ""
+				},
+				{
 					"id": "db142226-bf43-4868-b6b4-bf50ec693835",
 					"name": "is_deleted",
 					"datatype": "bool",
@@ -45770,7 +45786,7 @@
 		"replaceSpace": "_",
 		"color": "transparent",
 		"sideSelections": true,
-		"isDirty": false,
+		"isDirty": true,
 		"storedin": {
 			"major": 7,
 			"minor": 4,
@@ -45790,7 +45806,7 @@
 		"def_validationAction": "na",
 		"def_collation": "",
 		"def_others": "",
-		"lastSaved": 1756281875196
+		"lastSaved": 1756290754176
 	},
 	"otherObjects": {},
 	"diagrams": {
@@ -45800,7 +45816,7 @@
 			"id": "a936ed4d-ee58-4298-a509-8d4ac3f5b224",
 			"keysgraphics": true,
 			"linegraphics": "detailed",
-			"zoom": 0.7,
+			"zoom": 0.8,
 			"background": "#cccccc",
 			"lineColor": "#111111",
 			"isOpen": true,
@@ -47486,8 +47502,8 @@
 				},
 				"c117e949-49a4-4c6f-8ba3-236b1cd6a78c": {
 					"referencedItemId": "c117e949-49a4-4c6f-8ba3-236b1cd6a78c",
-					"x": 3718,
-					"y": 4431,
+					"x": 3722,
+					"y": 4587,
 					"gHeight": 117,
 					"gWidth": 194,
 					"color": "#ffffff",
@@ -47533,7 +47549,7 @@
 					"referencedItemId": "35c3a6ac-a8c7-45cf-9e21-0e0263317acd",
 					"x": 7824,
 					"y": 30,
-					"gHeight": 315,
+					"gHeight": 333,
 					"gWidth": 257,
 					"color": "#ffffff",
 					"background": "#f44336",
@@ -47802,7 +47818,7 @@
 				"639c3041-1640-4f37-8473-879d09ccde38": {
 					"referencedItemId": "639c3041-1640-4f37-8473-879d09ccde38",
 					"x": 9372,
-					"y": 4078,
+					"y": 4043,
 					"gHeight": 279,
 					"gWidth": 241,
 					"color": "#ffffff",

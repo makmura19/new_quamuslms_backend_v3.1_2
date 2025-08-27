@@ -44,6 +44,7 @@ class MainViewSet(BaseViewSet):
     params_validation = {
         "name": ParamsValidationType.STRING,
         "school_id": ParamsValidationType.OBJECT_ID,
+        "holding_id": ParamsValidationType.OBJECT_ID,
         "gender": ParamsValidationType.STRING,
         "is_active": ParamsValidationType.BOOLEAN,
     }
