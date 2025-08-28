@@ -17356,7 +17356,7 @@
 					"list": false,
 					"comment": "",
 					"data": "",
-					"enum": "",
+					"enum": "[\"tahfidz\",\"tahsin\",\"pra_tahsin\"]",
 					"validation": "",
 					"pattern": false,
 					"estimatedSize": "",
@@ -46404,7 +46404,7 @@
 		"replaceSpace": "_",
 		"color": "transparent",
 		"sideSelections": true,
-		"isDirty": true,
+		"isDirty": false,
 		"storedin": {
 			"major": 7,
 			"minor": 4,
@@ -46424,7 +46424,7 @@
 		"def_validationAction": "na",
 		"def_collation": "",
 		"def_others": "",
-		"lastSaved": 1756366619445
+		"lastSaved": 1756421732356
 	},
 	"otherObjects": {},
 	"diagrams": {
@@ -48060,8 +48060,8 @@
 				},
 				"2cc753f1-b50b-42c7-b2ab-5ebd03ff0df0": {
 					"referencedItemId": "2cc753f1-b50b-42c7-b2ab-5ebd03ff0df0",
-					"x": 5633,
-					"y": 1366,
+					"x": 5659,
+					"y": 1375,
 					"gHeight": 315,
 					"gWidth": 221,
 					"color": "#ffffff",
@@ -48075,8 +48075,8 @@
 				},
 				"b9885c3d-0bc8-468e-aaf1-0927578d2849": {
 					"referencedItemId": "b9885c3d-0bc8-468e-aaf1-0927578d2849",
-					"x": 6040,
-					"y": 1383,
+					"x": 5973,
+					"y": 1379,
 					"gHeight": 207,
 					"gWidth": 225,
 					"color": "#ffffff",

@@ -21,7 +21,7 @@ class CreateSerializer(BaseSerializer):
     stage_id = serializers.CharField(required=True)
     code = serializers.CharField(required=True, allow_blank=True)
     name = serializers.CharField(required=True)
-    npsn = serializers.CharField(required=True)
+    npsn = serializers.CharField(required=True, allow_blank=True)
     group_ids = serializers.ListField(
         child=serializers.CharField(), required=False, allow_empty=True
     )
