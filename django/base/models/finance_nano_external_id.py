@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import Optional
-from datetime import datetime
+from datetime import datetime, timezone
 from bson import ObjectId
 
 from marshmallow import Schema, fields as ma_fields
@@ -13,7 +13,7 @@ from utils.dict_util import DictUtil
 class FinanceNanoExternalIdData:
     _id: Optional[ObjectId] = field(default_factory=lambda: ObjectId())
     external_id: str
-    date: datetime
+    date: Optional[datetime] = datetime.now(timezone.utc)
 
 
 class FinanceNanoExternalIdSchema(Schema):

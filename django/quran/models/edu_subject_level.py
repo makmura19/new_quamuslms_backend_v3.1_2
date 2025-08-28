@@ -1,8 +1,11 @@
 from dataclasses import dataclass, field
 from typing import Optional
 from bson import ObjectId
+from datetime import datetime
 
 from marshmallow import Schema, fields as ma_fields
+from marshmallow import validate
+
 from helpers.base_model import BaseModel
 from helpers.custom_model_field import ObjectIdField
 from utils.dict_util import DictUtil
@@ -16,6 +19,9 @@ class EduSubjectLevelData:
     name: str
     bar_img: Optional[str] = field(default=None)
     thumbnail_img: Optional[str] = field(default=None)
+    subject_seq: int
+    is_catalogue: Optional[bool] = field(default=False)
+    is_active: Optional[bool] = field(default=True)
 
 
 class EduSubjectLevelSchema(Schema):
@@ -24,6 +30,9 @@ class EduSubjectLevelSchema(Schema):
     name = ma_fields.String(required=True)
     bar_img = ma_fields.String(required=False, allow_none=True)
     thumbnail_img = ma_fields.String(required=False, allow_none=True)
+    subject_seq = ma_fields.Integer(required=True)
+    is_catalogue = ma_fields.Boolean(required=True)
+    is_active = ma_fields.Boolean(required=True)
     _id = ObjectIdField(required=False, allow_none=True)
 
 
@@ -44,6 +53,8 @@ class EduSubjectLevel(BaseModel):
             "local": "level_id",
             "foreign": "_id",
             "sort": None,
-            "model": lambda: __import__("models.edu_stage_level").edu_stage_level.EduStageLevel(),
+            "model": lambda: __import__(
+                "models.edu_stage_level"
+            ).edu_stage_level.EduStageLevel(),
         },
     }

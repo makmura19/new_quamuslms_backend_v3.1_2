@@ -4,3 +4,4 @@ dev.yaml
 # Ignore folder
 db/
 docs/
+django/base/v2_data

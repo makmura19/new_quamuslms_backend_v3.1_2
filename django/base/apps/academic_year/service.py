@@ -53,7 +53,7 @@ class MainService(BaseService):
     @staticmethod
     def create__fields(year):
         name = f"{int(year)}/{int(year)+1}"
-        short_name = f"{int(year)}"
+        short_name = f"{str(year)[-2:]}{str(int(year)+1)[-2:]}"
         start_date = f"{int(year)}-07-01"
         end_date = f"{int(year)+1}-06-30"
         semester_ids = [ObjectId(), ObjectId()]

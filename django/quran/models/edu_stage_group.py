@@ -21,6 +21,7 @@ class EduStageGroupData:
     has_program_type: bool
     duration_years: int
     student_label: str
+    has_level: bool
     level_ids: Optional[List[ObjectId]] = field(default_factory=list)
     stage_ids: Optional[List[ObjectId]] = field(default_factory=list)
 
@@ -36,6 +37,7 @@ class EduStageGroupSchema(Schema):
     has_program_type = ma_fields.Boolean(required=True)
     duration_years = ma_fields.Integer(required=True)
     student_label = ma_fields.String(required=True)
+    has_level = ma_fields.Boolean(required=True)
     level_ids = ma_fields.List(ObjectIdField(), required=True)
     stage_ids = ma_fields.List(ObjectIdField(), required=True)
     _id = ObjectIdField(required=False, allow_none=True)

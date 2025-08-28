@@ -21,6 +21,7 @@ class MainService(BaseService):
             has_program_type=validated_data.get("has_program_type"),
             duration_years=validated_data.get("duration_years"),
             student_label=validated_data.get("student_label"),
+            has_level=validated_data.get("has_level"),
         )
         SecurityValidator.validate_data(new_edu_stage_data)
         result = model.insert_one(new_edu_stage_data)

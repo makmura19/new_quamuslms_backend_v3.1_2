@@ -16,6 +16,7 @@ class MainService(BaseService):
         new_data = EduSubjectLevelData(
             subject_id=validated_data.get("subject_id"),
             level_id=validated_data.get("level_id"),
+            subject_seq=extra.get("edu_subject").get("sequence"),
             name=MainService.create__name(extra),
         )
 

@@ -14,6 +14,7 @@ class CreateSerializer(BaseSerializer):
     has_program_type = serializers.BooleanField(required=True)
     duration_years = serializers.IntegerField(required=True)
     student_label = serializers.CharField(required=True)
+    has_level = serializers.BooleanField(required=True)
 
     class Meta:
         validate_model = {}

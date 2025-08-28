@@ -1,7 +1,10 @@
 from dataclasses import dataclass, field
 from typing import Optional, List
 from bson import ObjectId
+from datetime import datetime
+
 from marshmallow import Schema, fields as ma_fields
+
 from helpers.base_model import BaseModel
 from helpers.custom_model_field import ObjectIdField
 from utils.dict_util import DictUtil
@@ -10,8 +13,11 @@ from utils.dict_util import DictUtil
 @dataclass(kw_only=True)
 class QuranJuzData:
     _id: Optional[ObjectId] = field(default_factory=lambda: ObjectId())
+    name: str
     sequence: int
-    chapter_ids: List[ObjectId]
+    chapter_ids: Optional[List[ObjectId]] = field(default_factory=list)
+    chapter_seq_from: int
+    chapter_seq_to: int
     verse_seq_from: int
     verse_seq_to: int
     page_seq_from: int
@@ -20,8 +26,11 @@ class QuranJuzData:
 
 
 class QuranJuzSchema(Schema):
+    name = ma_fields.String(required=True)
     sequence = ma_fields.Integer(required=True)
     chapter_ids = ma_fields.List(ObjectIdField(), required=True)
+    chapter_seq_from = ma_fields.Integer(required=True)
+    chapter_seq_to = ma_fields.Integer(required=True)
     verse_seq_from = ma_fields.Integer(required=True)
     verse_seq_to = ma_fields.Integer(required=True)
     page_seq_from = ma_fields.Integer(required=True)
