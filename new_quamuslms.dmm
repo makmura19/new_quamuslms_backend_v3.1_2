@@ -17347,6 +17347,22 @@
 					"fk": true
 				},
 				{
+					"id": "21f906b9-2001-4242-a565-afd73846f58f",
+					"name": "program_type",
+					"datatype": "enum",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"data": "",
+					"enum": "",
+					"validation": "",
+					"pattern": false,
+					"estimatedSize": "",
+					"any": ""
+				},
+				{
 					"id": "0908beda-2c29-4405-8947-f2ee2b0d0adc",
 					"name": "name",
 					"datatype": "string",
@@ -46388,7 +46404,7 @@
 		"replaceSpace": "_",
 		"color": "transparent",
 		"sideSelections": true,
-		"isDirty": false,
+		"isDirty": true,
 		"storedin": {
 			"major": 7,
 			"minor": 4,
@@ -46408,7 +46424,7 @@
 		"def_validationAction": "na",
 		"def_collation": "",
 		"def_others": "",
-		"lastSaved": 1756366484547
+		"lastSaved": 1756366619445
 	},
 	"otherObjects": {},
 	"diagrams": {
@@ -47430,7 +47446,7 @@
 					"referencedItemId": "19e6c9ce-2be5-4207-bc00-83e521d69e80",
 					"x": 5922,
 					"y": 3265,
-					"gHeight": 297,
+					"gHeight": 315,
 					"gWidth": 261,
 					"color": "#222222",
 					"background": "#ffeb3b",

@@ -12,10 +12,11 @@ class QuranClassData:
     _id: Optional[ObjectId] = field(default_factory=lambda: ObjectId())
     school_id: ObjectId
     academic_year_id: ObjectId
+    program_type: str
     name: str
     teacher_id: ObjectId
     teacher_ids: Optional[List[ObjectId]] = field(default_factory=list)
-    progress: Union[int, float]
+    progress: float
     student_ids: Optional[List[ObjectId]] = field(default_factory=list)
     target_ids: Optional[List[ObjectId]] = field(default_factory=list)
     type: str
@@ -24,10 +25,13 @@ class QuranClassData:
 
 
 class QuranClassSchema(Schema):
-    school_id = ObjectIdField(required=True)
-    academic_year_id = ObjectIdField(required=True)
+    school_id = ObjectIdField(required=True, allow_none=False)
+    academic_year_id = ObjectIdField(required=True, allow_none=False)
+    program_type = ma_fields.String(
+        validate=validate.OneOf(["tahfidz", "tahsin", "pra_tahsin"]), required=True
+    )
     name = ma_fields.String(required=True)
-    teacher_id = ObjectIdField(required=True)
+    teacher_id = ObjectIdField(required=True, allow_none=False)
     teacher_ids = ma_fields.List(ObjectIdField(), required=True)
     progress = ma_fields.Float(required=True)
     student_ids = ma_fields.List(ObjectIdField(), required=True)
