@@ -398,6 +398,112 @@ class MainService(BaseService):
         }
 
     @staticmethod
+    def quran_verse(model: BaseModel, validated_data, extra, user, headers_dict=None):
+        from models.quran_verse import QuranVerse, QuranVerseData
+        from models.quran_juz import QuranJuz
+        from models.quran_chapter import QuranChapter
+        from models.quran_page import QuranPage
+
+        juz_data = QuranJuz().find()
+        juz_data = {item.get("sequence"): item for item in juz_data}
+        chapter_data = QuranChapter().find()
+        chapter_data = {item.get("sequence"): item for item in chapter_data}
+        page_data = QuranPage().find()
+        page_data = {item.get("sequence"): item for item in page_data}
+
+        json_data = JsonUtil.read("v2_data/quamus_lms.quran_verse.json")
+        input_data = []
+        for i in json_data:
+            selected_chapter = chapter_data.get(i.get("chapter_id"))
+            selected_juz = juz_data.get(i.get("meta").get("juz"))
+            selected_page = page_data.get(i.get("meta").get("page"))
+            new_quran_verse_data = QuranVerseData(
+                name=f"{selected_chapter.get('name').get('latin')} Ayat {i.get('number')}",
+                sequence=i.get("_id"),
+                verse_no=i.get("number"),
+                juz_id=ObjectId(selected_juz.get("_id")),
+                juz_seq=selected_juz.get("sequence"),
+                chapter_id=ObjectId(selected_chapter.get("_id")),
+                chapter_seq=selected_chapter.get("sequence"),
+                page_id=ObjectId(selected_page.get("_id")),
+                page_seq=selected_page.get("sequence"),
+                arabic=i.get("arabic"),
+                translation=i.get("translation"),
+            )
+            input_data.append(new_quran_verse_data)
+        if input_data:
+            QuranVerse().insert_many(input_data)
+        return {
+            "message": None,
+        }
+
+    @staticmethod
+    def quran_word(model: BaseModel, validated_data, extra, user, headers_dict=None):
+        from models.quran_word import QuranWord, QuranWordData
+        from models.quran_chapter import QuranChapter
+        from models.quran_line import QuranLine
+        from models.quran_verse import QuranVerse
+
+        chapter_data = QuranChapter().find()
+        chapter_data = {item.get("sequence"): item for item in chapter_data}
+        verse_data = QuranVerse().find()
+        verse_data = {item.get("sequence"): item for item in verse_data}
+        line_data = QuranLine().find()
+        line_data = {
+            f"{item.get('page_seq')}-{item.get('sequence')}": item for item in line_data
+        }
+
+        json_data = JsonUtil.read("v2_data/quamus_lms.quran_line.json")
+        json_kemenag_data = JsonUtil.read("v2_data/kemenag.json")
+        input_data = []
+        update_verse_data = {}
+        update_line_data = {}
+        for i in json_data:
+            if i.get("type") == "word":
+                selected_line = line_data.get(f"{i.get('page_number')}-{i.get('line')}")
+                for j in i.get("word"):
+                    print(j)
+                    selected_chapter = chapter_data.get(j.get("chapter_id"))
+                    selected_verse = verse_data.get(j.get("verse_id"))
+                    new_quran_word_data = QuranWordData(
+                        code=j.get("_id"),
+                        juz_id=ObjectId(selected_line.get("juz_id")),
+                        juz_seq=selected_line.get("juz_seq"),
+                        chapter_id=ObjectId(selected_chapter.get("_id")),
+                        chapter_seq=selected_chapter.get("sequence"),
+                        page_id=ObjectId(selected_line.get("page_id")),
+                        page_seq=selected_line.get("page_seq"),
+                        line_id=ObjectId(validated_data.get("line_id")),
+                        line_seq=validated_data.get("line_seq"),
+                        verse_id=ObjectId(selected_verse.get("_id")),
+                        verse_seq=selected_verse.get("sequence"),
+                        verse_no=selected_verse.get("verse_no"),
+                        sequence=j.get("word_order"),
+                        chapter_name=selected_chapter.get("name"),
+                        name=f"{selected_chapter.get('name')} Ayat {selected_verse.get('verse_no')}",
+                        arabic_madinah=(
+                            j.get("text") if j.get("type") == "word" else None
+                        ),
+                        arabic_kemenag=(
+                            json_kemenag_data.get(str(j.get("chapter_id"))).get(
+                                str(j.get("verse_number"))
+                            )[j.get("word_order") - 1]
+                            if j.get("type") == "word"
+                            else None
+                        ),
+                        last_line=j.get("last_line"),
+                        last_verse_page=j.get("last_verse_page"),
+                        is_word=j.get("type") == "word",
+                        is_end=j.get("type") != "word",
+                    )
+                    input_data.append(new_quran_word_data)
+        if input_data:
+            print(input_data)
+        return {
+            "message": None,
+        }
+
+    @staticmethod
     def template(model: BaseModel, validated_data, extra, user, headers_dict=None):
         from models.quran_juz import QuranJuz, QuranJuzData
 

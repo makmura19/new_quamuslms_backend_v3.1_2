@@ -9,24 +9,24 @@ from utils.dict_util import DictUtil
 
 
 @dataclass(kw_only=True)
-class QuranReciterData:
+class QuranTafsirData:
     _id: Optional[ObjectId] = field(default_factory=lambda: ObjectId())
     code: str
     name: str
     is_active: bool
 
 
-class QuranReciterSchema(Schema):
+class QuranTafsirSchema(Schema):
     code = ma_fields.String(required=True)
     name = ma_fields.String(required=True)
     is_active = ma_fields.Boolean(required=True)
     _id = ObjectIdField(required=False, allow_none=True)
 
 
-class QuranReciter(BaseModel):
-    type_id = DictUtil.get_id_type_from_dataclass(QuranReciterData)
-    collection_name = "quran_reciter"
-    schema = QuranReciterSchema
+class QuranTafsir(BaseModel):
+    type_id = DictUtil.get_id_type_from_dataclass(QuranTafsirData)
+    collection_name = "quran_tafsir"
+    schema = QuranTafsirSchema
     search = ["code", "name"]
-    object_class = QuranReciterData
+    object_class = QuranTafsirData
     foreign_key = {}
