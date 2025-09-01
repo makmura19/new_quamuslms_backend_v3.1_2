@@ -35738,6 +35738,23 @@
 					"any": ""
 				},
 				{
+					"id": "4f4115f8-e3fd-4cc2-9b78-c0b82639d6e7",
+					"name": "is_active",
+					"datatype": "bool",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"data": "",
+					"enum": "",
+					"validation": "",
+					"pattern": false,
+					"estimatedSize": "",
+					"any": "",
+					"fk": false
+				},
+				{
 					"id": "39949158-e1b9-4190-9c8b-642160c91f71",
 					"name": "is_deleted",
 					"datatype": "bool",
@@ -35944,6 +35961,22 @@
 					"estimatedSize": "",
 					"any": "",
 					"fk": true
+				},
+				{
+					"id": "4c1b5410-ecd8-4334-8a3c-ff68496bd4da",
+					"name": "is_all_teacher",
+					"datatype": "bool",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"data": "",
+					"enum": "",
+					"validation": "",
+					"pattern": false,
+					"estimatedSize": "",
+					"any": ""
 				},
 				{
 					"id": "f6576c70-bff6-4a83-91ec-075fe8b65d77",
@@ -47791,7 +47824,7 @@
 		"def_validationAction": "na",
 		"def_collation": "",
 		"def_others": "",
-		"lastSaved": 1756682139851
+		"lastSaved": 1756700760298
 	},
 	"otherObjects": {},
 	"diagrams": {
@@ -49948,7 +49981,7 @@
 					"referencedItemId": "bc6d262c-f58c-4473-9f45-2901e48f6ffe",
 					"x": 7537,
 					"y": 5464,
-					"gHeight": 279,
+					"gHeight": 297,
 					"gWidth": 240,
 					"color": "#ffffff",
 					"background": "#802828",
@@ -49963,7 +49996,7 @@
 					"referencedItemId": "869b7595-73e8-4aa4-964e-c201f1e3e9a4",
 					"x": 7158,
 					"y": 5589,
-					"gHeight": 243,
+					"gHeight": 261,
 					"gWidth": 236,
 					"color": "#ffffff",
 					"background": "#802828",
