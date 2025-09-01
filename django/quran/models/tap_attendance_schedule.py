@@ -21,6 +21,7 @@ class TapAttendanceScheduleData:
     early_leave_before: Union[int, float]
     for_student: bool
     for_teacher: bool
+    is_active: bool
 
 
 class TapAttendanceScheduleSchema(Schema):
@@ -37,6 +38,7 @@ class TapAttendanceScheduleSchema(Schema):
     early_leave_before = ma_fields.Float(required=True)
     for_student = ma_fields.Boolean(required=True)
     for_teacher = ma_fields.Boolean(required=True)
+    is_active = ma_fields.Boolean(required=True)
     _id = ObjectIdField(required=False, allow_none=True)
 
 

@@ -77,6 +77,7 @@ class SchoolSchoolData:
     under_holding: Optional[bool] = field(default=False)
     is_account_created: Optional[bool] = field(default=False)
     is_subject_created: Optional[bool] = field(default=False)
+    is_attendace_created: Optional[bool] = field(default=False)
     marketing_status: Optional[str] = field(default=None)
     implement_status: Optional[str] = field(default=None)
     subscription_status: Optional[str] = field(default=None)
@@ -141,6 +142,7 @@ class SchoolSchoolSchema(Schema):
     under_holding = ma_fields.Boolean(required=True)
     is_account_created = ma_fields.Boolean(required=True)
     is_subject_created = ma_fields.Boolean(required=True)
+    is_attendace_created = ma_fields.Boolean(required=True)
     marketing_status = ma_fields.String(
         required=False,
         allow_none=True,

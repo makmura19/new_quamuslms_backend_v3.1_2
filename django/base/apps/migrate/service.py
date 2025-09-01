@@ -456,7 +456,7 @@ class MainService(BaseService):
 
         json_data = JsonUtil.read("v2_data/quamus_lms.quran_line.json")
         json_kemenag_data = JsonUtil.read("v2_data/kemenag.json")
-        allowed_chapter = [1, 3]
+        allowed_chapter = [1, 114]
         input_data = []
         update_verse_data = {}
         update_line_data = {}
@@ -464,64 +464,152 @@ class MainService(BaseService):
             if i.get("type") == "word":
                 selected_line = line_data.get(f"{i.get('page_number')}-{i.get('line')}")
                 for j in i.get("word"):
-                    if j.get("chapter_id") in allowed_chapter:
-                        # print(j)
-                        if j.get("type") == "word":
-                            score = similarity_score(
+                    # if j.get("chapter_id") in allowed_chapter:
+                    if j.get("type") == "word":
+                        score = similarity_score(
+                            j.get("text"),
+                            json_kemenag_data.get(str(j.get("chapter_id"))).get(
+                                str(j.get("verse_number"))
+                            )[j.get("word_order") - 1],
+                        )
+                        if score < 50:
+                            print(
                                 j.get("text"),
+                                ":",
                                 json_kemenag_data.get(str(j.get("chapter_id"))).get(
                                     str(j.get("verse_number"))
                                 )[j.get("word_order") - 1],
+                                j.get("chapter_id"),
+                                j.get("verse_number"),
+                                j.get("word_order"),
+                                score,
                             )
-                            if score < 50:
-                                print(
-                                    j.get("text"),
-                                    ":",
-                                    json_kemenag_data.get(str(j.get("chapter_id"))).get(
-                                        str(j.get("verse_number"))
-                                    )[j.get("word_order") - 1],
-                                    j.get("chapter_id"),
-                                    j.get("verse_number"),
-                                    j.get("word_order"),
-                                    score,
-                                )
 
-                        selected_chapter = chapter_data.get(j.get("chapter_id"))
-                        selected_verse = verse_data.get(j.get("verse_id"))
-                        new_quran_word_data = QuranWordData(
-                            code=j.get("_id"),
-                            juz_id=ObjectId(selected_line.get("juz_id")),
-                            juz_seq=selected_line.get("juz_seq"),
-                            chapter_id=ObjectId(selected_chapter.get("_id")),
-                            chapter_seq=selected_chapter.get("sequence"),
-                            page_id=ObjectId(selected_line.get("page_id")),
-                            page_seq=selected_line.get("page_seq"),
-                            line_id=ObjectId(validated_data.get("line_id")),
-                            line_seq=validated_data.get("line_seq"),
-                            verse_id=ObjectId(selected_verse.get("_id")),
-                            verse_seq=selected_verse.get("sequence"),
-                            verse_no=selected_verse.get("verse_no"),
-                            sequence=j.get("word_order"),
-                            chapter_name=selected_chapter.get("name"),
-                            name=f"{selected_chapter.get('name')} Ayat {selected_verse.get('verse_no')}",
-                            arabic_madinah=(
-                                j.get("text") if j.get("type") == "word" else None
-                            ),
-                            arabic_kemenag=(
-                                json_kemenag_data.get(str(j.get("chapter_id"))).get(
-                                    str(j.get("verse_number"))
-                                )[j.get("word_order") - 1]
-                                if j.get("type") == "word"
-                                else None
-                            ),
-                            last_line=j.get("last_line"),
-                            last_verse_page=j.get("last_verse_page"),
-                            is_word=j.get("type") == "word",
-                            is_end=j.get("type") != "word",
+                        # print(j, score)
+
+                    selected_chapter = chapter_data.get(j.get("chapter_id"))
+                    selected_verse = verse_data.get(j.get("verse_id"))
+
+                    # print(selected_chapter)
+                    print(j)
+                    new_quran_word_data = QuranWordData(
+                        code=j.get("_id"),
+                        juz_id=ObjectId(selected_line.get("juz_id")),
+                        juz_seq=selected_line.get("juz_seq"),
+                        chapter_id=ObjectId(selected_chapter.get("_id")),
+                        chapter_seq=selected_chapter.get("sequence"),
+                        page_id=ObjectId(selected_line.get("page_id")),
+                        page_seq=selected_line.get("page_seq"),
+                        line_id=ObjectId(validated_data.get("line_id")),
+                        line_seq=selected_line.get("sequence"),
+                        verse_id=ObjectId(selected_verse.get("_id")),
+                        verse_seq=selected_verse.get("sequence"),
+                        verse_no=selected_verse.get("verse_no"),
+                        sequence=j.get("word_order"),
+                        chapter_name=selected_chapter.get("name").get("latin"),
+                        name=f"{selected_chapter.get('name').get('latin')} Ayat {selected_verse.get('verse_no')}",
+                        arabic_madinah=(
+                            j.get("text") if j.get("type") == "word" else None
+                        ),
+                        arabic_kemenag=(
+                            json_kemenag_data.get(str(j.get("chapter_id"))).get(
+                                str(j.get("verse_number"))
+                            )[j.get("word_order") - 1]
+                            if j.get("type") == "word"
+                            else None
+                        ),
+                        last_line=j.get("last_line"),
+                        last_verse_page=j.get("last_verse_page"),
+                        is_word=j.get("type") == "word",
+                        is_end=j.get("type") != "word",
+                    )
+                    input_data.append(new_quran_word_data)
+                    if j.get("type") == "word":
+                        update_verse_data.setdefault(selected_verse.get("_id"), [])
+                        update_verse_data[selected_verse.get("_id")].append(
+                            new_quran_word_data._id
                         )
-                        input_data.append(new_quran_word_data)
-        # if input_data:
-        #     print(input_data)
+                    update_line_data.setdefault(selected_line.get("_id"), [])
+                    update_line_data[selected_line.get("_id")].append(
+                        new_quran_word_data._id
+                    )
+        if input_data:
+            print(input_data)
+            QuranWord().insert_many(input_data)
+        if update_verse_data:
+            update_data = []
+            for k, v in update_verse_data.items():
+                update_data.append({"_id": ObjectId(k), "set_data": {"word_ids": v}})
+            print(update_data)
+            QuranVerse().update_many_different_data(update_data)
+        if update_line_data:
+            update_data = []
+            for k, v in update_line_data.items():
+                update_data.append({"_id": ObjectId(k), "set_data": {"word_ids": v}})
+            print(update_data)
+            QuranLine().update_many_different_data(update_data)
+        return {
+            "message": None,
+        }
+
+    @staticmethod
+    def export_quran_words(json_data, dst_path="v2_data/quran_words_by_surah.json"):
+        from collections import defaultdict
+        import json
+
+        """
+        Input: json_data = list of verse dicts, masing-masing:
+        {
+            'chapter_id': int,
+            'number': int,             # nomor ayat dalam surat
+            'words': [ { 'word': int, 'arabic_styled': str, 'arabic_normal': str, ... }, ... ]
+        }
+
+        Output file JSON: {"NO_SURAT":{"NO_AYAT":["WORD 1","WORD 2", ...]}}
+        """
+        out = defaultdict(dict)  # {surah(str): {ayah(str): [words...]}}
+
+        for verse in json_data:
+            try:
+                surah = str(verse["chapter_id"])
+                ayah = str(verse["number"])
+                words = verse.get("words", [])
+
+                # urutkan sesuai urutan kata di ayat
+                words_sorted = sorted(words, key=lambda w: w.get("word", 0))
+
+                # ambil tulisan arab; prefer arabic_styled, fallback ke arabic_normal
+                token_list = []
+                for w in words_sorted:
+                    token = w.get("arabic_styled") or w.get("arabic_normal") or ""
+                    if token:
+                        token_list.append(token)
+
+                out[surah][ayah] = token_list
+            except Exception as e:
+                # Kalau ada verse yang datanya tidak lengkap, skip atau bisa log
+                # print(f"Skip verse karena error: {e}")
+                continue
+
+        # simpan ke file
+        with open(dst_path, "w", encoding="utf-8") as f:
+            json.dump(out, f, ensure_ascii=False, indent=2)
+
+        return out
+
+    @staticmethod
+    def quran_verse(model: BaseModel, validated_data, extra, user, headers_dict=None):
+        from models.quran_verse import QuranVerse
+        import json
+
+        src_file = "v2_data/quamus_lms.quran_verse.json"
+        with open(src_file, "r", encoding="utf-8") as f:
+            json_data = json.load(f)
+
+        result = MainService.export_quran_words(
+            json_data, dst_path="quran_words_by_surah.json"
+        )
+
         return {
             "message": None,
         }

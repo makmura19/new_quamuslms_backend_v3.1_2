@@ -23,7 +23,7 @@ class QuranWordData:
     verse_id: ObjectId
     verse_seq: int
     verse_no: int
-    sequence: int
+    sequence: Optional[int] = field(default=None)
     chapter_name: str
     name: str
     arabic_madinah: Optional[str] = field(default=None)
@@ -47,7 +47,7 @@ class QuranWordSchema(Schema):
     verse_id = ObjectIdField(required=True, allow_none=False)
     verse_seq = ma_fields.Integer(required=True)
     verse_no = ma_fields.Integer(required=True)
-    sequence = ma_fields.Integer(required=True)
+    sequence = ma_fields.Integer(required=False, allow_none=True)
     chapter_name = ma_fields.String(required=True)
     name = ma_fields.String(required=True)
     arabic_madinah = ma_fields.String(required=False, allow_none=True)

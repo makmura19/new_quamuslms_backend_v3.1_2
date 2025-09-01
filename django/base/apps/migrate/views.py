@@ -73,6 +73,11 @@ class MainViewSet(BaseViewSet):
             "serializer": None,
             "roles": [Role.SUPERADMIN],
         },
+        "quran_verse": {
+            "method": HTTPMethod.POST,
+            "serializer": None,
+            "roles": [Role.SUPERADMIN],
+        },
     }
 
     params_validation = {}
