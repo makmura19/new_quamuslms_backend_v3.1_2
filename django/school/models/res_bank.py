@@ -10,6 +10,7 @@ from utils.dict_util import DictUtil
 @dataclass(kw_only=True)
 class ResBankData:
     _id: Optional[ObjectId] = field(default_factory=lambda: ObjectId())
+    code: str
     name: str
     short_name: str
     image: Optional[str] = field(default=None)
@@ -17,6 +18,7 @@ class ResBankData:
 
 
 class ResBankSchema(Schema):
+    code = ma_fields.String(required=True)
     name = ma_fields.String(required=True)
     short_name = ma_fields.String(required=True)
     image = ma_fields.String(required=False, allow_none=True)

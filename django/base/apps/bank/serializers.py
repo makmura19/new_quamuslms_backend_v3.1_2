@@ -5,6 +5,7 @@ from helpers.custom_serializer_field import FileField, FILETYPEGROUP
 
 
 class CreateSerializer(BaseSerializer):
+    code = serializers.CharField(required=True)
     name = serializers.CharField(required=True)
     short_name = serializers.CharField(required=True)
     is_active = serializers.BooleanField(required=True)
