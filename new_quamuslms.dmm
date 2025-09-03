@@ -1964,7 +1964,8 @@
 				"abbb9e2f-1be0-4c1f-8ecc-35c7ba94a777",
 				"0b0ce9ba-3e1e-432f-a40d-b2d8dd1697b5",
 				"2ce8f3ee-5df5-4470-bc0f-18d8e71e42a1",
-				"6f730dd6-ec4f-4f3a-89ba-43a8bb8125e6"
+				"6f730dd6-ec4f-4f3a-89ba-43a8bb8125e6",
+				"fb806278-d1bf-42bd-b397-e1b3eed69403"
 			],
 			"lines": [],
 			"keys": [
@@ -26253,6 +26254,23 @@
 					"fk": true
 				},
 				{
+					"id": "a0434ab2-9ead-49d3-9743-4f9c86ced10c",
+					"name": "school_id",
+					"datatype": "any",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"data": "",
+					"enum": "",
+					"validation": "",
+					"pattern": false,
+					"estimatedSize": "",
+					"any": "\"objectId\",\"null\"",
+					"fk": true
+				},
+				{
 					"id": "91dc255a-93f4-4484-a23f-acf771fcb0a9",
 					"name": "school_ids",
 					"datatype": "objectId",
@@ -26430,6 +26448,38 @@
 					"any": ""
 				},
 				{
+					"id": "c5225dc6-e68c-4ad7-b0dd-4d6b8e24aef3",
+					"name": "is_school",
+					"datatype": "bool",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"data": "",
+					"enum": "",
+					"validation": "",
+					"pattern": false,
+					"estimatedSize": "",
+					"any": ""
+				},
+				{
+					"id": "e4bfa2e2-d90e-43dc-9f2c-51fe1acef41e",
+					"name": "is_holding",
+					"datatype": "bool",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"data": "",
+					"enum": "",
+					"validation": "",
+					"pattern": false,
+					"estimatedSize": "",
+					"any": ""
+				},
+				{
 					"id": "4ec2095b-70d3-479b-9f67-a0c1f2e83293",
 					"name": "is_active",
 					"datatype": "bool",
@@ -26487,7 +26537,8 @@
 				"268f7a87-e89c-4ced-b5d9-0df14ed96fe9",
 				"3e45974a-79a6-4544-8f8e-2ce39bdac8f9",
 				"a3180780-747f-45d2-87ba-568372fe6c2d",
-				"bd924018-052f-446f-a2e4-1c295097b1ad"
+				"bd924018-052f-446f-a2e4-1c295097b1ad",
+				"fb806278-d1bf-42bd-b397-e1b3eed69403"
 			],
 			"lines": [],
 			"keys": [
@@ -50270,6 +50321,33 @@
 			"generateCustomCode": true,
 			"customCode": "",
 			"relationColor": "transparent"
+		},
+		"fb806278-d1bf-42bd-b397-e1b3eed69403": {
+			"id": "fb806278-d1bf-42bd-b397-e1b3eed69403",
+			"visible": true,
+			"name": "school_school_finance_va_config",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "be81837c-88fe-44f7-87b2-a8cd5c2aaf46",
+			"parent": "ac719e00-f212-4ebc-b669-831acb58cbcd",
+			"child": "cb21f108-03cd-4fd0-9c8e-6853a83ec97b",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "47e61144-14f4-4dbd-bcfb-9adb0ff2df3b",
+					"parentcol": "560ec9d6-fd49-4f80-971e-aed1fc8241df",
+					"childcol": "a0434ab2-9ead-49d3-9743-4f9c86ced10c"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"relationColor": "transparent"
 		}
 	},
 	"notes": {},
@@ -50287,7 +50365,7 @@
 		"replaceSpace": "_",
 		"color": "transparent",
 		"sideSelections": true,
-		"isDirty": false,
+		"isDirty": true,
 		"storedin": {
 			"major": 7,
 			"minor": 4,
@@ -50307,7 +50385,7 @@
 		"def_validationAction": "na",
 		"def_collation": "",
 		"def_others": "",
-		"lastSaved": 1756866950471
+		"lastSaved": 1756940059285
 	},
 	"otherObjects": {},
 	"diagrams": {
@@ -51846,9 +51924,9 @@
 				},
 				"cb21f108-03cd-4fd0-9c8e-6853a83ec97b": {
 					"referencedItemId": "cb21f108-03cd-4fd0-9c8e-6853a83ec97b",
-					"x": 5631,
-					"y": 416,
-					"gHeight": 369,
+					"x": 5621,
+					"y": 358,
+					"gHeight": 423,
 					"gWidth": 228,
 					"color": "#ffffff",
 					"background": "#f44336",
@@ -51945,8 +52023,8 @@
 				},
 				"b9885c3d-0bc8-468e-aaf1-0927578d2849": {
 					"referencedItemId": "b9885c3d-0bc8-468e-aaf1-0927578d2849",
-					"x": 5886,
-					"y": 1263,
+					"x": 5990,
+					"y": 1373,
 					"gHeight": 207,
 					"gWidth": 225,
 					"color": "#ffffff",
@@ -51960,8 +52038,8 @@
 				},
 				"514611b4-0b0e-44f5-9c0f-28feed122592": {
 					"referencedItemId": "514611b4-0b0e-44f5-9c0f-28feed122592",
-					"x": 6410,
-					"y": 1385,
+					"x": 6377,
+					"y": 1381,
 					"gHeight": 297,
 					"gWidth": 248,
 					"color": "#ffffff",
