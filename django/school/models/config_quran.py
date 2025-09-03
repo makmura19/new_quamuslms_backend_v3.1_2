@@ -8,19 +8,6 @@ from utils.dict_util import DictUtil
 
 
 @dataclass(kw_only=True)
-class SignatureData:
-    is_principal: bool
-    is_coordinator: bool
-    is_parent: bool
-
-
-class SignatureSchema(Schema):
-    is_principal = ma_fields.Boolean(required=True)
-    is_coordinator = ma_fields.Boolean(required=True)
-    is_parent = ma_fields.Boolean(required=True)
-
-
-@dataclass(kw_only=True)
 class ConfigQuranData:
     _id: Optional[ObjectId] = field(default_factory=lambda: ObjectId())
     school_id: ObjectId
@@ -28,8 +15,7 @@ class ConfigQuranData:
     daily_assesment_rule: str
     exam_assesment_rule: str
     juziyah_assesment_rule: str
-    signature: SignatureData
-    coordinator_id: ObjectId
+    coordinator_id: Optional[ObjectId] = field(default=None)
     teacher_ids: Optional[List[ObjectId]] = field(default_factory=list)
     target_period: Optional[str] = field(default=None)
     exam_threshold: Optional[int] = field(default=None)
@@ -54,8 +40,7 @@ class ConfigQuranSchema(Schema):
     juziyah_assesment_rule = ma_fields.String(
         validate=validate.OneOf(["type_1", "type_2"]), required=True
     )
-    signature = ma_fields.Nested(SignatureSchema, required=True)
-    coordinator_id = ObjectIdField(required=True)
+    coordinator_id = ObjectIdField(required=False, allow_none=True)
     teacher_ids = ma_fields.List(ObjectIdField(), required=True)
     target_period = ma_fields.String(
         validate=validate.OneOf([None, "semester", "year", "full"]),

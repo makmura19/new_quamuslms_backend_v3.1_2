@@ -3,6 +3,7 @@ from helpers.base_serializer import BaseSerializer
 from models.school_holding import SchoolHolding
 from models.edu_stage import EduStage
 from models.edu_stage_group import EduStageGroup
+from models.school_module import SchoolModule
 from models.school_group import SchoolGroup
 from constants.params_validation_type import ParamsValidationType
 from helpers.custom_serializer_field import FileField, FILETYPEGROUP
@@ -51,9 +52,6 @@ class UpdateSerializer(BaseSerializer):
     group_ids = serializers.ListField(
         child=serializers.CharField(), required=False, allow_empty=True
     )
-    tz = serializers.ChoiceField(
-        choices=["Asia/Jakarta", "Asia/Makasar", "Asia/Jayapura"]
-    )
     address = AddressSerializer(required=True)
 
     class Meta:
@@ -85,3 +83,16 @@ class UploadLogoSerializer(BaseSerializer):
 
     class Meta:
         validate_model = {}
+
+
+class ModuleSerializer(BaseSerializer):
+    module_ids = serializers.ListField(child=serializers.CharField(), required=True)
+
+    class Meta:
+        validate_model = {
+            "module_ids": {
+                "field": "_id",
+                "model": SchoolModule(),
+                "type": ParamsValidationType.OBJECT_IDS,
+            }
+        }

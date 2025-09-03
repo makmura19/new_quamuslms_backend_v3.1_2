@@ -9,6 +9,7 @@ from .serializers import (
     UpdateSerializer,
     ActivateSerializer,
     UploadLogoSerializer,
+    ModuleSerializer,
 )
 from .service import MainService
 
@@ -37,7 +38,7 @@ class MainViewSet(BaseViewSet):
         "update": {
             "method": HTTPMethod.PUT,
             "serializer": UpdateSerializer,
-            "roles": [Role.SUPERADMIN],
+            "roles": [Role.SUPERADMIN, Role.HOLDING_ADMIN, Role.ADMINISTRATOR],
         },
         "destroy": {
             "method": HTTPMethod.DELETE,
@@ -59,20 +60,26 @@ class MainViewSet(BaseViewSet):
         "module": {
             "detail": True,
             "method": HTTPMethod.PUT,
-            "serializer": UpdateSerializer,
+            "serializer": ModuleSerializer,
             "roles": [Role.SUPERADMIN],
         },
         "teacher_account": {
             "detail": True,
             "method": HTTPMethod.PUT,
             "serializer": None,
-            "roles": [Role.SUPERADMIN],
+            "roles": [Role.SUPERADMIN, Role.HOLDING_ADMIN, Role.ADMINISTRATOR],
         },
         "upload_logo": {
             "detail": True,
             "method": HTTPMethod.PUT,
             "serializer": UploadLogoSerializer,
-            "roles": [Role.SUPERADMIN],
+            "roles": [Role.SUPERADMIN, Role.HOLDING_ADMIN, Role.ADMINISTRATOR],
+        },
+        "level": {
+            "detail": True,
+            "method": HTTPMethod.GET,
+            "serializer": None,
+            "roles": [Role.ALL],
         },
     }
 
@@ -84,4 +91,6 @@ class MainViewSet(BaseViewSet):
         "module_codes": ParamsValidationType.STRING,
         "group_ids": ParamsValidationType.OBJECT_ID,
         "is_active": ParamsValidationType.BOOLEAN,
+        "is_school": ParamsValidationType.BOOLEAN,
+        "is_holding": ParamsValidationType.BOOLEAN,
     }

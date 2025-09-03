@@ -27,23 +27,23 @@ class MainViewSet(BaseViewSet):
         "create": {
             "method": HTTPMethod.POST,
             "serializer": CreateSerializer,
-            "roles": [Role.SUPERADMIN],
+            "roles": [Role.SUPERADMIN, Role.HOLDING_ADMIN, Role.ADMINISTRATOR],
         },
         "input_xls": {
             "method": HTTPMethod.POST,
             "serializer": InputXlsSerializer,
-            "roles": [Role.SUPERADMIN],
+            "roles": [Role.SUPERADMIN, Role.HOLDING_ADMIN, Role.ADMINISTRATOR],
         },
         "update": {
             "method": HTTPMethod.PUT,
             "serializer": UpdateSerializer,
-            "roles": [Role.SUPERADMIN],
+            "roles": [Role.SUPERADMIN, Role.HOLDING_ADMIN, Role.ADMINISTRATOR],
         },
         "account": {
             "detail": True,
             "method": HTTPMethod.PUT,
             "serializer": None,
-            "roles": [Role.SUPERADMIN],
+            "roles": [Role.SUPERADMIN, Role.HOLDING_ADMIN, Role.ADMINISTRATOR],
         },
         "destroy": {
             "method": HTTPMethod.DELETE,

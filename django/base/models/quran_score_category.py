@@ -41,6 +41,7 @@ class QuranScoreCategory(BaseModel):
             "local": "school_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, code, name",
             "model": lambda: __import__(
                 "models.school_school"
             ).school_school.SchoolSchool(),
@@ -49,6 +50,7 @@ class QuranScoreCategory(BaseModel):
             "local": "type_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name, program_type",
             "model": lambda: __import__(
                 "models.quran_score_type"
             ).quran_score_type.QuranScoreType(),

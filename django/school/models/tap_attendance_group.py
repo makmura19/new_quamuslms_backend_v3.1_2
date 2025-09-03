@@ -17,6 +17,7 @@ class TapAttendanceGroupData:
     for_teacher: bool
     teacher_ids: Optional[List[ObjectId]] = field(default_factory=list)
     schedule_ids: Optional[List[ObjectId]] = field(default_factory=list)
+    is_all_teacher: bool
     is_default: bool
     is_active: bool
 
@@ -28,6 +29,7 @@ class TapAttendanceGroupSchema(Schema):
     for_teacher = ma_fields.Boolean(required=True)
     teacher_ids = ma_fields.List(ObjectIdField(), required=True)
     schedule_ids = ma_fields.List(ObjectIdField(), required=True)
+    is_all_teacher = ma_fields.Boolean(required=True)
     is_default = ma_fields.Boolean(required=True)
     is_active = ma_fields.Boolean(required=True)
     _id = ObjectIdField(required=False, allow_none=True)

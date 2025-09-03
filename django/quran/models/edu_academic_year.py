@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Optional, List
 from bson import ObjectId
-from datetime import datetime
+from datetime import datetime, timezone
 
 from marshmallow import Schema, fields as ma_fields
 from helpers.base_model import BaseModel
@@ -18,6 +18,7 @@ class EduAcademicYearData:
     start_date: datetime
     end_date: datetime
     semester_ids: Optional[List[ObjectId]] = field(default_factory=list)
+    is_active: bool
 
 
 class EduAcademicYearSchema(Schema):
@@ -27,6 +28,7 @@ class EduAcademicYearSchema(Schema):
     start_date = ma_fields.DateTime(required=True)
     end_date = ma_fields.DateTime(required=True)
     semester_ids = ma_fields.List(ObjectIdField(), required=True)
+    is_active = ma_fields.Boolean(required=True)
     _id = ObjectIdField(required=False, allow_none=True)
 
 
@@ -46,3 +48,10 @@ class EduAcademicYear(BaseModel):
             ).edu_semester.EduSemester(),
         }
     }
+
+    def get_active(self):
+        now = datetime.now(timezone.utc)
+        academic_year_data = self.find_one(
+            {"start_date": {"$lte": now}, "end_date": {"$gte": now}}
+        )
+        return academic_year_data

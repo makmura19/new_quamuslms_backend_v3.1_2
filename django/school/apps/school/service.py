@@ -149,6 +149,48 @@ class MainService(BaseService):
         return result
 
     @staticmethod
+    def retrieve(
+        model: BaseModel,
+        _id,
+        user,
+        headers_dict=None,
+        query_params={},
+        params_validation={},
+    ):
+        from constants.params_validation_type import ParamsValidationType
+
+        result = model.aggregate(
+            query_params={**query_params, "_id": ObjectId(_id)},
+            params_validation={
+                **params_validation,
+                "_id": ParamsValidationType.OBJECT_ID,
+            },
+            lookup=["partner"],
+        )
+        return result[0]
+
+    @staticmethod
+    def level(
+        model: BaseModel,
+        _id,
+        user,
+        headers_dict=None,
+        query_params={},
+        params_validation={},
+    ):
+        from models.edu_stage_group import EduStageGroup
+        from models.edu_stage_level import EduStageLevel
+        from models.school_school import SchoolSchool
+
+        school_data = SchoolSchool().find_one({"_id": ObjectId(_id)})
+        stage_group_data = EduStageGroup().find_one(
+            {"_id": ObjectId(school_data.get("stage_group_id"))}
+        )
+        level_ids = [ObjectId(item) for item in stage_group_data.get("level_ids")]
+        level_data = EduStageLevel().find({"_id": {"$in": level_ids}})
+        return level_data
+
+    @staticmethod
     def activate(
         model: BaseModel, _id, old_data, validated_data, extra, user, headers_dict=None
     ):
@@ -164,7 +206,8 @@ class MainService(BaseService):
             raise ValidationError("Invalid school_id")
 
         model.update_one(
-            {"_id": ObjectId(_id)}, {"is_active": validated_data.get("is_active")}
+            {"_id": ObjectId(_id)},
+            {"is_active": validated_data.get("is_active"), "is_client": True},
         )
         if validated_data.get("is_active"):
             username = f"{old_data.get('code')}_admin"
@@ -298,6 +341,23 @@ class MainService(BaseService):
             raise ValidationError("Upload logo gagal.")
         update_data = {"logo_md": url[0]}
         model.update_one({"_id": ObjectId(_id)}, update_data, user=user)
+        return {
+            "data": {"id": str(_id)},
+            "message": None,
+        }
+
+    @staticmethod
+    def module(
+        model: BaseModel, _id, old_data, validated_data, extra, user, headers_dict=None
+    ):
+        from .module import Module
+        from rest_framework.exceptions import ValidationError
+
+        if not old_data.get("is_active"):
+            raise ValidationError("Invalid _id, school is inactive")
+
+        Module(_id, old_data, validated_data, extra, user)
+
         return {
             "data": {"id": str(_id)},
             "message": None,

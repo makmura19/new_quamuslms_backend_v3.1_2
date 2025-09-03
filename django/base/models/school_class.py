@@ -21,7 +21,7 @@ class SchoolClassData:
     school_id: ObjectId
     academic_year_id: ObjectId
     name: str
-    homeroom_id: ObjectId
+    homeroom_id: Optional[ObjectId] = field(default=None)
     student_ids: Optional[List[ObjectId]] = field(default_factory=list)
     subject_ids: Optional[List[ObjectId]] = field(default_factory=list)
     class_subject_ids: Optional[List[ObjectId]] = field(default_factory=list)
@@ -51,7 +51,7 @@ class SchoolClassSchema(Schema):
     school_id = ObjectIdField(required=True, allow_none=False)
     academic_year_id = ObjectIdField(required=True, allow_none=False)
     name = ma_fields.String(required=True)
-    homeroom_id = ObjectIdField(required=True, allow_none=False)
+    homeroom_id = ObjectIdField(required=False, allow_none=True)
     student_ids = ma_fields.List(ObjectIdField(), required=True)
     subject_ids = ma_fields.List(ObjectIdField(), required=True)
     class_subject_ids = ma_fields.List(ObjectIdField(), required=True)

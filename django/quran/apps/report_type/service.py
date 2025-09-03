@@ -9,20 +9,6 @@ from bson import ObjectId
 class MainService(BaseService):
 
     @staticmethod
-    def create(model: BaseModel, validated_data, extra, user, headers_dict=None):
-        new_report_type_data = QuranReportTypeData(
-            name=validated_data.get("name"),
-            description=validated_data.get("description"),
-            program_type=validated_data.get("program_type"),
-        )
-        SecurityValidator.validate_data(new_report_type_data)
-        result = model.insert_one(new_report_type_data, user)
-        return {
-            "data": {"_id": str(result.inserted_id)},
-            "message": None,
-        }
-    
-    @staticmethod
     def upload_preview(
         model: BaseModel, _id, old_data, validated_data, extra, user, headers_dict=None
     ):

@@ -51,7 +51,7 @@ class SchoolSchoolData:
     config_finance_id: Optional[ObjectId] = field(default=None)
     config_lms_id: Optional[ObjectId] = field(default=None)
     config_tahfidz_id: Optional[ObjectId] = field(default=None)
-    config_tashin_id: Optional[ObjectId] = field(default=None)
+    config_tahsin_id: Optional[ObjectId] = field(default=None)
     config_pratahsin_id: Optional[ObjectId] = field(default=None)
     config_va_ids: Optional[List[ObjectId]] = field(default_factory=list)
     join_date: Optional[datetime] = field(default=None)
@@ -128,7 +128,7 @@ class SchoolSchoolSchema(Schema):
     config_finance_id = ObjectIdField(required=False, allow_none=True)
     config_lms_id = ObjectIdField(required=False, allow_none=True)
     config_tahfidz_id = ObjectIdField(required=False, allow_none=True)
-    config_tashin_id = ObjectIdField(required=False, allow_none=True)
+    config_tahsin_id = ObjectIdField(required=False, allow_none=True)
     config_pratahsin_id = ObjectIdField(required=False, allow_none=True)
     config_va_ids = ma_fields.List(ObjectIdField(), required=True)
     join_date = ma_fields.DateTime(required=False, allow_none=True)
@@ -294,7 +294,7 @@ class SchoolSchool(BaseModel):
             ).config_tahfidz.ConfigTahfidz(),
         },
         "config_tashin": {
-            "local": "config_tashin_id",
+            "local": "config_tahsin_id",
             "foreign": "_id",
             "sort": None,
             "model": lambda: __import__(

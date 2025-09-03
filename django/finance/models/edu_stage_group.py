@@ -24,6 +24,7 @@ class EduStageGroupData:
     has_level: bool
     level_ids: Optional[List[ObjectId]] = field(default_factory=list)
     stage_ids: Optional[List[ObjectId]] = field(default_factory=list)
+    num_option: int
 
 
 class EduStageGroupSchema(Schema):
@@ -40,6 +41,7 @@ class EduStageGroupSchema(Schema):
     has_level = ma_fields.Boolean(required=True)
     level_ids = ma_fields.List(ObjectIdField(), required=True)
     stage_ids = ma_fields.List(ObjectIdField(), required=True)
+    num_option = ma_fields.Integer(required=True)
     _id = ObjectIdField(required=False, allow_none=True)
 
 

@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import Optional, List
 from bson import ObjectId
 
 from marshmallow import Schema, fields as ma_fields
@@ -16,10 +16,11 @@ class SchoolSubjectData:
     name: str
     short_name: str
     image: Optional[str] = field(default=None)
-    treshold: int
+    threshold: int
     sequence: int
-    is_template: Optional[bool] = field(default=False)
-    is_active: Optional[bool] = field(default=True)
+    level_ids: Optional[List[ObjectId]] = field(default_factory=list)
+    is_template: bool
+    is_active: bool
 
 
 class SchoolSubjectSchema(Schema):
@@ -28,8 +29,9 @@ class SchoolSubjectSchema(Schema):
     name = ma_fields.String(required=True)
     short_name = ma_fields.String(required=True)
     image = ma_fields.String(required=False, allow_none=True)
-    treshold = ma_fields.Integer(required=True)
+    threshold = ma_fields.Integer(required=True)
     sequence = ma_fields.Integer(required=True)
+    level_ids = ma_fields.List(ObjectIdField(), required=True)
     is_template = ma_fields.Boolean(required=True)
     is_active = ma_fields.Boolean(required=True)
     _id = ObjectIdField(required=False, allow_none=True)
@@ -54,6 +56,16 @@ class SchoolSubject(BaseModel):
             "local": "subject_id",
             "foreign": "_id",
             "sort": None,
-            "model": lambda: __import__("models.edu_subject").edu_subject.EduSubject(),
+            "model": lambda: __import__(
+                "models.school_subject"
+            ).school_subject.SchoolSubject(),
+        },
+        "levels": {
+            "local": "level_ids",
+            "foreign": "_id",
+            "sort": None,
+            "model": lambda: __import__(
+                "models.edu_stage_level"
+            ).edu_stage_level.EduStageLevel(),
         },
     }

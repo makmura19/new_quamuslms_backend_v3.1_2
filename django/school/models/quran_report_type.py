@@ -10,6 +10,7 @@ from utils.dict_util import DictUtil
 @dataclass(kw_only=True)
 class QuranReportTypeData:
     _id: Optional[ObjectId] = field(default_factory=lambda: ObjectId())
+    code: str
     name: str
     description: str
     preview: Optional[str] = field(default=None)
@@ -17,6 +18,7 @@ class QuranReportTypeData:
 
 
 class QuranReportTypeSchema(Schema):
+    code = ma_fields.String(required=True)
     name = ma_fields.String(required=True)
     description = ma_fields.String(required=True)
     preview = ma_fields.String(required=False, allow_none=True)

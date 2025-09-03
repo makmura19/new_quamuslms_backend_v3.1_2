@@ -1,7 +1,7 @@
 from helpers.base_service import BaseService
 from helpers.base_model import BaseModel
 from helpers.user_service import UserService
-from constants.access import Role
+from constants.access import Role, SCHOOL_ROLES
 from models.res_user import ResUser, ResUserData
 from models.authentication_user import AuthenticationUserData
 from rest_framework.exceptions import AuthenticationFailed
@@ -96,12 +96,26 @@ class MainService(BaseService):
                 "school_id": user.school_id,
                 "holding_id": user.holding_id,
             }
-        elif Role.ADMINISTRATOR in user_roles:
+        elif any(role in user_roles for role in SCHOOL_ROLES):
+            from models.school_school import SchoolSchool
+            from bson import ObjectId
+
+            res_user_data = res_user.find_one(
+                {"login": user.username}, convert_to_json=False
+            )
+            school_data = SchoolSchool().find_one({"_id": ObjectId(user.school_id)})
             user_data = {
-                "name": "Administrator",
+                "name": res_user_data.get("name"),
                 "username": user.username.split("_")[1],
                 "authority": user_roles,
                 "school_id": user.school_id,
+                "school": {
+                    "_id": school_data.get("_id"),
+                    "name": school_data.get("name"),
+                    "module_ids": school_data.get("module_ids"),
+                    "module_codes": school_data.get("module_codes"),
+                    "logo_md": school_data.get("logo_md"),
+                },
             }
         else:
             res_user_data = res_user.find_one(

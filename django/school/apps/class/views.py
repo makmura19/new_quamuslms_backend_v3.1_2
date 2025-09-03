@@ -4,7 +4,7 @@ from constants.access import Role
 from constants.params_validation_type import ParamsValidationType
 from constants.http_method import HTTPMethod
 
-from .serializers import CreateSerializer, UpdateSerializer
+from .serializers import CreateSerializer, UpdateSerializer, UpdateSubjectSerializer
 from .service import MainService
 
 
@@ -27,17 +27,29 @@ class MainViewSet(BaseViewSet):
         "create": {
             "method": HTTPMethod.POST,
             "serializer": CreateSerializer,
-            "roles": [Role.SUPERADMIN],
+            "roles": [Role.SUPERADMIN, Role.HOLDING_ADMIN, Role.ADMINISTRATOR],
         },
         "update": {
             "method": HTTPMethod.PUT,
             "serializer": UpdateSerializer,
-            "roles": [Role.SUPERADMIN],
+            "roles": [Role.SUPERADMIN, Role.HOLDING_ADMIN, Role.ADMINISTRATOR],
         },
         "destroy": {
             "method": HTTPMethod.DELETE,
             "serializer": None,
-            "roles": [Role.SUPERADMIN],
+            "roles": [Role.SUPERADMIN, Role.HOLDING_ADMIN, Role.ADMINISTRATOR],
+        },
+        "subject": {
+            "detail": True,
+            "method": HTTPMethod.GET,
+            "serializer": None,
+            "roles": [Role.ALL],
+        },
+        "update_subject": {
+            "detail": True,
+            "method": HTTPMethod.PUT,
+            "serializer": UpdateSubjectSerializer,
+            "roles": [Role.SUPERADMIN, Role.HOLDING_ADMIN, Role.ADMINISTRATOR],
         },
     }
 
@@ -47,4 +59,4 @@ class MainViewSet(BaseViewSet):
         "academic_year_id": ParamsValidationType.OBJECT_ID,
         "level_id": ParamsValidationType.OBJECT_ID,
         "is_active": ParamsValidationType.BOOLEAN,
-}
+    }

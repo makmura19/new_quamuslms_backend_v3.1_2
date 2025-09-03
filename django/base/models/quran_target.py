@@ -71,6 +71,7 @@ class QuranTarget(BaseModel):
             "local": "group_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name",
             "model": lambda: __import__(
                 "models.quran_target_group"
             ).quran_target_group.QuranTargetGroup(),
@@ -79,12 +80,14 @@ class QuranTarget(BaseModel):
             "local": "class_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name",
             "model": lambda: __import__("models.quran_class").quran_class.QuranClass(),
         },
         "school": {
             "local": "school_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name",
             "model": lambda: __import__(
                 "models.school_school"
             ).school_school.SchoolSchool(),
@@ -93,12 +96,14 @@ class QuranTarget(BaseModel):
             "local": "juz_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name",
             "model": lambda: __import__("models.quran_juz").quran_juz.QuranJuz(),
         },
         "chapter": {
             "local": "chapter_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name",
             "model": lambda: __import__(
                 "models.quran_chapter"
             ).quran_chapter.QuranChapter(),
@@ -107,12 +112,14 @@ class QuranTarget(BaseModel):
             "local": "verse_ids",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name",
             "model": lambda: __import__("models.quran_verse").quran_verse.QuranVerse(),
         },
         "method": {
             "local": "method_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name",
             "model": lambda: __import__(
                 "models.pra_tahsin_method"
             ).pra_tahsin_method.PraTahsinMethod(),
@@ -121,6 +128,8 @@ class QuranTarget(BaseModel):
             "local": "book_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "name",
+            "fields": "_id, name",
             "model": lambda: __import__(
                 "models.pra_tahsin_book"
             ).pra_tahsin_book.PraTahsinBook(),

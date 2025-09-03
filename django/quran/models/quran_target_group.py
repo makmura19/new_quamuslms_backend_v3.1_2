@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
 from typing import Optional, List
 from bson import ObjectId
+from datetime import datetime
+
 from marshmallow import Schema, fields as ma_fields, validate
 from helpers.base_model import BaseModel
 from helpers.custom_model_field import ObjectIdField
@@ -13,12 +15,12 @@ class QuranTargetGroupData:
     school_id: ObjectId
     program_type: str
     name: str
-    is_active: Optional[bool] = field(default=True)
+    is_active: bool
     target_ids: Optional[List[ObjectId]] = field(default_factory=list)
 
 
 class QuranTargetGroupSchema(Schema):
-    school_id = ObjectIdField(required=True)
+    school_id = ObjectIdField(required=True, allow_none=False)
     program_type = ma_fields.String(
         validate=validate.OneOf(["tahfidz", "tahsin", "pra_tahsin"]), required=True
     )
@@ -39,8 +41,18 @@ class QuranTargetGroup(BaseModel):
             "local": "school_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, code, name, display_name",
             "model": lambda: __import__(
                 "models.school_school"
             ).school_school.SchoolSchool(),
-        }
+        },
+        "target": {
+            "local": "target_ids",
+            "foreign": "_id",
+            "sort": None,
+            "fields": "_id, name, short_name",
+            "model": lambda: __import__(
+                "models.quran_target"
+            ).quran_target.QuranTarget(),
+        },
     }

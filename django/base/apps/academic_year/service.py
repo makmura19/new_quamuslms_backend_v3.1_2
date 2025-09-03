@@ -21,6 +21,7 @@ class MainService(BaseService):
             start_date=datetime.strptime(fields["start_date"], "%Y-%m-%d"),
             end_date=datetime.strptime(fields["end_date"], "%Y-%m-%d"),
             semester_ids=fields["semester_ids"],
+            is_active=validated_data.get("is_active"),
         )
 
         semester_doc = [
@@ -114,6 +115,7 @@ class MainService(BaseService):
             "short_name": fields.get("short_name"),
             "start_date": datetime.strptime(fields.get("start_date"), "%Y-%m-%d"),
             "end_date": datetime.strptime(fields.get("end_date"), "%Y-%m-%d"),
+            "is_active": validated_data.get("is_active"),
         }
         semester_update = [
             {
