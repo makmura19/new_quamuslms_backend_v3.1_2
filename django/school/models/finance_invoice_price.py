@@ -65,7 +65,7 @@ class FinanceInvoicePrice(BaseModel):
             "foreign": "_id",
             "sort": None,
             "model": lambda: __import__(
-                "models.finance_invoice_type_variant"
-            ).finance_invoice_type_variant.FinanceInvoiceTypeVariant(),
+                "models.finance_invoice_price_variant"
+            ).finance_invoice_price_variant.FinanceInvoicePriceVariant(),
         },
     }

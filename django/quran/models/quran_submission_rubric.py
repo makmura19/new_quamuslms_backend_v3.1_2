@@ -39,6 +39,7 @@ class QuranSubmissionRubric(BaseModel):
             "local": "school_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, code, name, display_name",
             "model": lambda: __import__(
                 "models.school_school"
             ).school_school.SchoolSchool(),

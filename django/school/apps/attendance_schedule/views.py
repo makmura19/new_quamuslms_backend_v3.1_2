@@ -4,7 +4,7 @@ from constants.access import Role
 from constants.params_validation_type import ParamsValidationType
 from constants.http_method import HTTPMethod
 
-from .serializers import CreateSerializer, UpdateSerializer
+from .serializers import CreateSerializer
 from .service import MainService
 
 
@@ -27,17 +27,7 @@ class MainViewSet(BaseViewSet):
         "create": {
             "method": HTTPMethod.POST,
             "serializer": CreateSerializer,
-            "roles": [Role.SUPERADMIN],
-        },
-        "update": {
-            "method": HTTPMethod.PUT,
-            "serializer": UpdateSerializer,
-            "roles": [Role.SUPERADMIN],
-        },
-        "destroy": {
-            "method": HTTPMethod.DELETE,
-            "serializer": None,
-            "roles": [Role.SUPERADMIN],
+            "roles": [Role.SUPERADMIN, Role.HOLDING_ADMIN, Role.ADMINISTRATOR],
         },
     }
 

@@ -110,3 +110,82 @@ class AccountAccount(BaseModel):
             ).account_account.AccountAccount(),
         },
     }
+
+
+    def get_code(self, parent_code, holding_id, school_id):
+        existing_data = self.get_parent(parent_code, holding_id, school_id)
+        if not existing_data:
+            return None
+        child_ids = [ObjectId(i) for i in existing_data.get("child_ids")]
+        child_data = self.find({"_id":{"$in":child_ids}})
+        child_code = [int(i.get("code")) for i in child_data]
+        last_code = max(child_code) + 1
+        return f"{last_code}", existing_data
+
+    def get_parent(self, parent_code, holding_id, school_id):
+        query = {"code": parent_code}
+        if holding_id:
+            query["holding_id"] = holding_id
+        else:
+            query["school_id"] = school_id
+        existing_data = self.find_one(query)
+        return existing_data
+
+    def create_account(self, parent_code, holding_id, school_id, name, user=None):
+        from models.school_school import SchoolSchool
+
+        map = {
+            "tuition_income": "Pendapatan",
+            "student_receivable": "Piutang",
+            "bank": "Bank",
+            "merchant_payable": "Utang Merchant",
+            "vendor_payable": "Utang Quamus",
+            "cash": "Kas",
+        }
+
+        _id = ObjectId()
+        account_name = ""
+        income_code, parent_data = self.get_code(parent_code, holding_id, school_id)
+        parent_id = ObjectId(parent_data.get("_id"))
+        if school_id:
+            school_data = SchoolSchool().find_one({"_id": school_id})
+            account_name = []
+            if map.get(parent_data.get("group")):
+                account_name.append(map.get(parent_data.get("group")))
+            if name:
+                account_name.append(name)
+            if parent_data.get("group") not in [
+                "bank",
+                "merchant_payable",
+            ] and school_data.get("name"):
+                account_name.append(school_data.get("name"))
+            account_name = " ".join(account_name)
+        else:
+            account_name = name
+        
+        item_ = {
+            "_id": _id,
+            "holding_id": holding_id,
+            "school_id": school_id,
+            "code": income_code,
+            "name": account_name,
+            "type": parent_data.get("type"),
+            "group": parent_data.get("group"),
+            "is_active": True,
+            "is_manual": False,
+            "parent_id": parent_id,
+            "child_ids": [],
+            "sequence": 0,
+            "note": "",
+            "display_name": f"{income_code} - {account_name}",
+            "is_template": False,
+            "is_group": False,
+            "is_postable": True,
+        }
+        self.insert_one(item_, user=user)
+        self.update_one(
+            {"_id": parent_id},
+            add_to_set_data={"child_ids": _id},
+            user=user,
+        )
+        return _id

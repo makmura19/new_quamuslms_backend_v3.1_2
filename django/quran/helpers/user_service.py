@@ -55,9 +55,9 @@ class UserService:
         return user
 
     @staticmethod
-    def change_password(email, old_password, new_password):
+    def change_password(username, old_password, new_password):
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.get(username=username)
         except ObjectDoesNotExist:
             raise NotFound("User not found.")
 
@@ -69,9 +69,9 @@ class UserService:
         return True
 
     @staticmethod
-    def reset_password(email, new_password):
+    def reset_password(username, new_password):
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.get(username=username)
         except ObjectDoesNotExist:
             raise NotFound("User not found.")
 
@@ -84,9 +84,9 @@ class UserService:
         return User.objects.filter(email=email).exists()
 
     @staticmethod
-    def update_user_is_active(email, is_active):
+    def update_user_is_active(username, is_active):
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.get(username=username)
         except ObjectDoesNotExist:
             raise NotFound("User not found.")
 
@@ -95,11 +95,11 @@ class UserService:
         return user
 
     @staticmethod
-    def update_user(email, data):
+    def update_user(username, data):
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.get(username=username)
         except ObjectDoesNotExist:
-            raise NotFound("User not found with the provided email.")
+            raise NotFound("User not found with the provided username.")
 
         for key, value in data.items():
             if key == "password":
@@ -117,13 +117,13 @@ class UserService:
         failed = []
 
         for item in data_list:
-            email = item.get("email")
-            if not email:
-                failed.append({"error": "Missing email", "data": item})
+            username = item.get("username")
+            if not username:
+                failed.append({"error": "Missing username", "data": item})
                 continue
 
             try:
-                user = User.objects.get(email=email)
+                user = User.objects.get(username=username)
                 for key, value in item.items():
                     if key == "password":
                         setattr(user, "password", make_password(value))
@@ -133,16 +133,15 @@ class UserService:
                         raise ValueError(f"Invalid field '{key}' provided in data.")
                 updated_users.append(user)
             except ObjectDoesNotExist:
-                failed.append({"error": "User not found", "email": email})
+                failed.append({"error": "User not found", "username": username})
             except Exception as e:
-                failed.append({"error": str(e), "email": email})
+                failed.append({"error": str(e), "username": username})
 
         if updated_users:
             update_fields = [
-                "email",
-                "company_id",
-                "authority",
+                "username",
                 "password",
+                "role",
                 "is_active",
             ]
             User.objects.bulk_update(updated_users, update_fields)
@@ -164,16 +163,19 @@ class UserService:
         return True
 
     @staticmethod
-    def get_user_profile(email):
+    def get_user_profile(username):
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.get(username=username)
         except ObjectDoesNotExist:
             raise NotFound("User not found.")
 
         return {
-            "email": user.email,
-            "company_id": user.company_id,
-            "authority": user.authority,
+            "username": user.username,
+            "role": user.role,
+            "holding_id": user.holding_id,
+            "school_id": user.school_id,
+            "school_code": user.school_code,
+            "is_company_active": user.is_company_active,
             "is_active": user.is_active,
             "is_staff": user.is_staff,
             "is_superuser": user.is_superuser,
@@ -188,17 +190,17 @@ class UserService:
         return users.count()
 
     @staticmethod
-    def assign_authority_to_users(emails, authority):
-        users = User.objects.filter(email__in=emails)
+    def assign_authority_to_users(usernames, authority):
+        users = User.objects.filter(username__in=usernames)
         for user in users:
             user.authority = authority
             user.save()
         return users.count()
 
     @staticmethod
-    def delete_user(email):
+    def delete_user(username):
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.get(username=username)
         except ObjectDoesNotExist:
             raise NotFound("User not found.")
         user.delete()

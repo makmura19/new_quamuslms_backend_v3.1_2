@@ -59,6 +59,7 @@ class QuranExamContent(BaseModel):
             "local": "school_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, code, name, display_name",
             "model": lambda: __import__(
                 "models.school_school"
             ).school_school.SchoolSchool(),
@@ -67,12 +68,14 @@ class QuranExamContent(BaseModel):
             "local": "exam_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, code, name, program_type",
             "model": lambda: __import__("models.quran_exam").quran_exam.QuranExam(),
         },
         "student": {
             "local": "student_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name, nis",
             "model": lambda: __import__(
                 "models.school_student"
             ).school_student.SchoolStudent(),
@@ -81,12 +84,14 @@ class QuranExamContent(BaseModel):
             "local": "juz_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name, sequence",
             "model": lambda: __import__("models.quran_juz").quran_juz.QuranJuz(),
         },
         "chapter": {
             "local": "chapter_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name, sequence",
             "model": lambda: __import__(
                 "models.quran_chapter"
             ).quran_chapter.QuranChapter(),
@@ -95,6 +100,7 @@ class QuranExamContent(BaseModel):
             "local": "book_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name, level",
             "model": lambda: __import__(
                 "models.pra_tahsin_book"
             ).pra_tahsin_book.PraTahsinBook(),

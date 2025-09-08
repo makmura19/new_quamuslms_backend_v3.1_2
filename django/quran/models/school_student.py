@@ -7,6 +7,7 @@ from marshmallow import Schema, fields as ma_fields, validate
 from helpers.base_model import BaseModel
 from helpers.custom_model_field import ObjectIdField
 from utils.dict_util import DictUtil
+from utils.string_util import StringUtil
 
 
 @dataclass(kw_only=True)
@@ -38,10 +39,12 @@ class SchoolStudentData:
     level_seq: Optional[int] = field(default=None)
     dormitory_id: Optional[ObjectId] = field(default=None)
     dormitory_room_id: Optional[ObjectId] = field(default=None)
-    is_graduated: bool
+    is_graduated: Optional[bool] = field(default=False)
     graduated_at: Optional[datetime] = field(default=None)
     qrcode: str
-    pin: str
+    pin: Optional[str] = field(
+        default_factory=lambda: StringUtil.generate_code("nnnnn")
+    )
     parent_balance: Optional[int] = field(default=0)
     pocket_balance: Optional[int] = field(default=0)
     pocket_treshold: Optional[int] = field(default=0)
@@ -49,7 +52,7 @@ class SchoolStudentData:
     va_ids: Optional[List[ObjectId]] = field(default_factory=list)
     va_nos: Optional[List[str]] = field(default_factory=list)
     unpaid_invoice_ids: Optional[List[ObjectId]] = field(default_factory=list)
-    unpaid_total: int
+    unpaid_total: Optional[int] = field(default=0)
     photo: Optional[str] = field(default=None)
     phone: Optional[str] = field(default=None)
     quran_class_ids: Optional[List[ObjectId]] = field(default_factory=list)
@@ -213,7 +216,7 @@ class SchoolStudent(BaseModel):
             "local": "level_id",
             "foreign": "_id",
             "sort": None,
-            "model": lambda: __import__("models.edu_level").edu_level.EduLevel(),
+            "model": lambda: __import__("models.edu_stage_level").edu_stage_level.EduStageLevel(),
         },
         "dormitory": {
             "local": "dormitory_id",
@@ -258,3 +261,20 @@ class SchoolStudent(BaseModel):
             "model": lambda: __import__("models.quran_class").quran_class.QuranClass(),
         },
     }
+
+
+    def get_qrcodes(self, school_id, prefix, count):
+        from utils.string_util import StringUtil
+
+        existing = self.find(
+            {"school_id": school_id, "is_active": True}, convert_to_json=False
+        )
+        existing_qrcodes = [
+            item.get("qrcode") for item in existing if item.get("qrcode")
+        ]
+        qrcodes = []
+        while len(qrcodes) < count:
+            code = school_id + prefix + StringUtil.generate_code("nnnnnnnnnn")
+            if code not in existing_qrcodes:
+                qrcodes.append(code)
+        return qrcodes

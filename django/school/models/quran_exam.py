@@ -63,6 +63,7 @@ class QuranExam(BaseModel):
             "local": "school_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, code, name, display_name",
             "model": lambda: __import__(
                 "models.school_school"
             ).school_school.SchoolSchool(),
@@ -71,6 +72,7 @@ class QuranExam(BaseModel):
             "local": "academic_year_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name, year",
             "model": lambda: __import__(
                 "models.edu_academic_year"
             ).edu_academic_year.EduAcademicYear(),
@@ -79,6 +81,7 @@ class QuranExam(BaseModel):
             "local": "semester_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name, semester_no",
             "model": lambda: __import__(
                 "models.edu_semester"
             ).edu_semester.EduSemester(),
@@ -87,6 +90,7 @@ class QuranExam(BaseModel):
             "local": "examiner_ids",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name, staff_no",
             "model": lambda: __import__(
                 "models.school_teacher"
             ).school_teacher.SchoolTeacher(),
@@ -95,6 +99,7 @@ class QuranExam(BaseModel):
             "local": "class_ids",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name",
             "model": lambda: __import__("models.quran_class").quran_class.QuranClass(),
         },
         "contents": {
