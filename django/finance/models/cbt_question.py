@@ -114,6 +114,7 @@ class CbtQuestion(BaseModel):
             "local": "option_ids",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id,text,is_correct",
             "model": lambda: __import__(
                 "models.cbt_question_option"
             ).cbt_question_option.CbtQuestionOption(),
@@ -122,6 +123,7 @@ class CbtQuestion(BaseModel):
             "local": "answer_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id,text,is_correct",
             "model": lambda: __import__(
                 "models.cbt_question_option"
             ).cbt_question_option.CbtQuestionOption(),
@@ -130,6 +132,7 @@ class CbtQuestion(BaseModel):
             "local": "answer_ids",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id,text,is_correct",
             "model": lambda: __import__(
                 "models.cbt_question_option"
             ).cbt_question_option.CbtQuestionOption(),

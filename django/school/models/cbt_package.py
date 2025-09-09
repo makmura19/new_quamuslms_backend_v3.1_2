@@ -52,6 +52,7 @@ class CbtPackage(BaseModel):
             "local": "teacher_id",
             "foreign": "_id",
             "sort": None,
+            "fields" : "_id,name",
             "model": lambda: __import__(
                 "models.school_teacher"
             ).school_teacher.SchoolTeacher(),
@@ -60,6 +61,7 @@ class CbtPackage(BaseModel):
             "local": "subject_id",
             "foreign": "_id",
             "sort": None,
+            "fields" : "_id,name",
             "model": lambda: __import__(
                 "models.school_subject"
             ).school_subject.SchoolSubject(),
@@ -68,6 +70,7 @@ class CbtPackage(BaseModel):
             "local": "level_id",
             "foreign": "_id",
             "sort": None,
+            "fields" : "_id,name",
             "model": lambda: __import__(
                 "models.edu_stage_level"
             ).edu_stage_level.EduStageLevel(),

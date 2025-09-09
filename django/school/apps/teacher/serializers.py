@@ -6,7 +6,7 @@ from helpers.custom_serializer_field import DateTimeField, FileField, FILETYPE
 
 
 class CreateSerializer(BaseSerializer):
-    school_id = serializers.CharField(required=True)
+    school_id = serializers.CharField(required=False)
     name = serializers.CharField(required=True)
     staff_no = serializers.CharField(required=True, allow_blank=True)
     resident_no = serializers.CharField(required=True, allow_blank=True)
@@ -37,7 +37,7 @@ class UpdateSerializer(BaseSerializer):
 
 
 class InputXlsSerializer(BaseSerializer):
-    school_id = serializers.CharField(required=True)
+    school_id = serializers.CharField(required=False)
     file = FileField(required=True, allowed_types=[FILETYPE.XLSX], max_size_mb=15)
 
     class Meta:

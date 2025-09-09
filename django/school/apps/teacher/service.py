@@ -13,7 +13,6 @@ class MainService(BaseService):
 
     @staticmethod
     def create(model: BaseModel, validated_data, extra, user, headers_dict=None):
-        print(extra)
         holding_id = (
             ObjectId(extra.get("school_school").get("holding_id"))
             if extra.get("school_school").get("holding_id")
@@ -56,10 +55,10 @@ class MainService(BaseService):
             export_setting = [
                 "w-5 text-center",
                 "w-40",
-                "w-25 center",
-                "w-25 center",
-                "w-20 center",
-                "w-20 center",
+                "w-25 text-center",
+                "w-25 text-center",
+                "w-20 text-center",
+                "w-20 text-center",
             ]
             for idx, item in enumerate(result["data"], start=1):
                 export_data.append(
@@ -127,8 +126,6 @@ class MainService(BaseService):
             authority_id=ObjectId(authority_data.get("_id")),
             authority_ids=[ObjectId(authority_data.get("_id"))],
             authority_codes=[authority_data.get("code")],
-            is_password_encrypted=True,
-            is_school=True,
             is_teacher=True,
             is_active=True,
         )
