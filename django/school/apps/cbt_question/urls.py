@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .views import MainViewSet
 
 router = DefaultRouter(trailing_slash=False)
-router.register(r"package", MainViewSet, basename="package")
+router.register(r"cbt_question", MainViewSet, basename="cbt_question")
 
 urlpatterns = [
     path("", include(router.urls)),

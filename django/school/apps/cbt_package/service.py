@@ -9,8 +9,6 @@ from bson import ObjectId
 
 class MainService(BaseService):
 
-
-    
     @staticmethod
     def validate_create_update(value, user):
         from models.edu_academic_year import EduAcademicYear
@@ -18,35 +16,43 @@ class MainService(BaseService):
         from models.school_class import SchoolClass
 
         school_id = ObjectId(user.school_id)
-        teacher_data = SchoolTeacher().find_one({"login":user.username})
+        teacher_data = SchoolTeacher().find_one({"login": user.username})
         teacher_id = ObjectId(teacher_data.get("_id"))
         academic_year_id = ObjectId(EduAcademicYear().get_active().get("_id"))
-        class_data = SchoolClass().find({
-            "school_id":school_id,
-            "level_id":ObjectId(value.get("level_id")),
-        })
+        class_data = SchoolClass().find(
+            {
+                "school_id": school_id,
+                "level_id": ObjectId(value.get("level_id")),
+            }
+        )
         if not class_data:
-            raise ValidationError("Invalid level_id. Your school does not have a class for that level yet.")
+            raise ValidationError(
+                "Invalid level_id. Your school does not have a class for that level yet."
+            )
         class_ids = [ObjectId(i.get("_id")) for i in class_data]
-        class_subject_data = SchoolClassSubject().find({
-            "school_id":school_id,
-            "academic_year_id":academic_year_id,
-            "subject_id": ObjectId(value.get("subject_id")),
-            "teacher_ids": teacher_id,
-            "class_id": {"$in":class_ids}
-        })
+        class_subject_data = SchoolClassSubject().find(
+            {
+                "school_id": school_id,
+                "academic_year_id": academic_year_id,
+                "subject_id": ObjectId(value.get("subject_id")),
+                "teacher_ids": teacher_id,
+                "class_id": {"$in": class_ids},
+            }
+        )
         if not class_subject_data:
-            raise ValidationError("You do not have permission because you are not a teacher of the relevant subject.")
+            raise ValidationError(
+                "You do not have permission because you are not a teacher of the relevant subject."
+            )
 
         return {
-            "school_id":school_id,
-            "teacher_id":teacher_id,
+            "school_id": school_id,
+            "teacher_id": teacher_id,
         }
-    
-    
+
     @staticmethod
     def validate_create(value, _extra, secret, user, old_data=None):
         from utils.dict_util import DictUtil
+
         extra = MainService.validate_create_update(value, user)
         return {"value": value, "extra": DictUtil.merge_dicts(_extra, extra)}
 
@@ -68,10 +74,10 @@ class MainService(BaseService):
             "message": None,
         }
 
-
     @staticmethod
     def validate_update(value, _extra, secret, user, old_data=None):
         from utils.dict_util import DictUtil
+
         extra = MainService.validate_create_update(value, user)
         return {"value": value, "extra": DictUtil.merge_dicts(_extra, extra)}
 
@@ -85,6 +91,6 @@ class MainService(BaseService):
             params_validation=params_validation,
             fields=query_params.get("fields"),
             exclude=query_params.get("exclude"),
-            lookup=["teacher","subject","level"]
+            lookup=["teacher", "subject", "level"],
         )
         return result
