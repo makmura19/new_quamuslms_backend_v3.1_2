@@ -52296,7 +52296,7 @@
 		"replaceSpace": "_",
 		"color": "transparent",
 		"sideSelections": true,
-		"isDirty": true,
+		"isDirty": false,
 		"storedin": {
 			"major": 7,
 			"minor": 4,
@@ -52316,7 +52316,7 @@
 		"def_validationAction": "na",
 		"def_collation": "",
 		"def_others": "",
-		"lastSaved": 1756948520797
+		"lastSaved": 1756948531720
 	},
 	"otherObjects": {},
 	"diagrams": {
@@ -52326,7 +52326,7 @@
 			"id": "a936ed4d-ee58-4298-a509-8d4ac3f5b224",
 			"keysgraphics": true,
 			"linegraphics": "detailed",
-			"zoom": 0.4,
+			"zoom": 0.7,
 			"background": "#cccccc",
 			"lineColor": "#111111",
 			"isOpen": true,

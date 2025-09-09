@@ -435,10 +435,16 @@ class BaseModel:
             validated_data = self.validated_and_clean_data(item_dict, partial=True)
             validated_data = self.prepare_common_fields(validated_data, is_new=True)
 
+            # -------- new code \\\\
+            if "_id" in validated_data:
+                validated_data.pop("_id")
+            # -------- new code ////
+            
             filter_query = {key_field: item_dict[key_field]}
             operations.append(
                 UpdateOne(filter_query, {"$set": validated_data}, upsert=True)
             )
+        
         if operations:
             result = self.collection.bulk_write(operations)
             return result
@@ -669,25 +675,66 @@ class BaseModel:
 
     #     return result
 
+
+# -----------------------------------------------------------------
+    # ------------- old code ////
+    # def soft_delete_many(self, query):
+    #     from utils.string_util import StringUtil
+
+    #     timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+    #     update_data = {
+    #         "is_deleted": True,
+    #         "deleted_at": datetime.now(timezone.utc),
+    #     }
+
+    #     documents = list(self.collection.find(query))
+    #     for doc in documents:
+    #         for key, value in doc.items():
+    #             if key != "_id" and isinstance(value, str):
+    #                 update_data[key] = (
+    #                     f"{value}_{timestamp}_{StringUtil.generate_code('nnccnncc')}"
+    #                 )
+
+    #     result = self.collection.update_many(query, {"$set": update_data})
+    #     return result
+    # ------------- old code ////
+    
+    # ------ new code \\\
     def soft_delete_many(self, query):
+        from helpers.security_validator import SecurityValidator
         from utils.string_util import StringUtil
 
-        timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
-        update_data = {
-            "is_deleted": True,
-            "deleted_at": datetime.now(timezone.utc),
-        }
-
+        schema_instance = self.schema()
+        schema_fields = schema_instance.fields
         documents = list(self.collection.find(query))
+        data_list = []
         for doc in documents:
+            update_data = {
+                "is_deleted": True,
+                "deleted_at": datetime.now(timezone.utc),
+            }
             for key, value in doc.items():
-                if key != "_id" and isinstance(value, str):
-                    update_data[key] = (
-                        f"{value}_{timestamp}_{StringUtil.generate_code('nnccnncc')}"
-                    )
+                if key not in SecurityValidator.IMMUTABLE_FIELDS:
+                    field = schema_fields.get(key)
+                    if (
+                        isinstance(value, str)
+                        and field
+                        and not isinstance(field.validate, OneOf)
+                    ):
+                        update_data[key] = (
+                            f"{value}_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}"
+                        )
+            data_list.append({
+                "_id": doc["_id"],
+                "set_data": update_data,
+            })
+            
+        self.update_many_different_data(data_list)
 
-        result = self.collection.update_many(query, {"$set": update_data})
-        return result
+    # ------ new code ///
+# -----------------------------------------------------------------
+
+
 
     def aggregate(
         self,
