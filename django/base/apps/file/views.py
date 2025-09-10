@@ -1,16 +1,24 @@
+from models.res_file import ResFile
 from helpers.base_viewset import BaseViewSet
-from constants.access import Role, Action
+from constants.access import Role
+from constants.params_validation_type import ParamsValidationType
+from constants.http_method import HTTPMethod
 
 from .serializers import CreateSerializer
 from .service import MainService
 
 
 class MainViewSet(BaseViewSet):
-    create_serializer = CreateSerializer
-    update_serializer = CreateSerializer
+    model = ResFile()
     service = MainService()
-    data_name = "File"
-    def_list = {
-        Action.CREATE: ["__public__"],
+    data_name = "ResFile"
+
+    actions = {
+        "create": {
+            "method": HTTPMethod.POST,
+            "serializer": CreateSerializer,
+            "roles": [Role.PUBLIC],
+        },
     }
+
     params_validation = {}
