@@ -6,11 +6,10 @@ from models.config_lms_report import ConfigLmsReport
 from constants.params_validation_type import ParamsValidationType
 
 
-class UpdateSerializer(BaseSerializer):
+class UpdateMeSerializer(BaseSerializer):
     exam_type_ids = serializers.ListField(
         child=serializers.CharField(), required=True
     )
-    config_report_id = serializers.CharField(required=True)
     num_option = serializers.IntegerField(required=True, min_value=0)
 
     class Meta:

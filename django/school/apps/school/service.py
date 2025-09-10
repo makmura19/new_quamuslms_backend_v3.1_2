@@ -286,16 +286,14 @@ class MainService(BaseService):
                 i.get("name"),
             )
             new_user_data = ResUserData(
-                holding_id=ObjectId(old_data.get("holding_id")),
-                school_id=ObjectId(old_data.get("school_id")),
-                teacher_id=ObjectId(_id),
+                holding_id=ObjectId(old_data.get("holding_id")) if old_data.get("holding_id") else None,
+                school_id=ObjectId(_id),
+                teacher_id=ObjectId(teacher_data.get("_id")),
                 login=username,
                 name=i.get("name"),
                 authority_id=ObjectId(authority_data.get("_id")),
                 authority_ids=[ObjectId(authority_data.get("_id"))],
                 authority_codes=[authority_data.get("code")],
-                is_password_encrypted=True,
-                is_school=True,
                 is_teacher=True,
                 is_active=True,
             )
@@ -329,6 +327,75 @@ class MainService(BaseService):
             "data": {"id": str(_id)},
             "message": None,
         }
+    
+
+    @staticmethod
+    def student_account(
+        model: BaseModel, _id, old_data, validated_data, extra, user, headers_dict=None
+    ):
+        from models.school_student import SchoolStudent
+        from models.res_user import ResUser, ResUserData
+        from models.authentication_user import AuthenticationUserData
+        from models.res_authority import ResAuthority
+        from constants.access import Role
+        from helpers.user_service import UserService
+
+        student_data = SchoolStudent().find(
+            {"school_id": ObjectId(_id), "user_id": None}
+        )
+        authority_data = ResAuthority().find_one({"code": Role.STUDENT.value})
+        input_user_data = []
+        input_auth_user_data = []
+        update_student_data = []
+        for i in student_data:
+            username = ResUser().get_school_username(
+                _id,
+                old_data.get("code"),
+                i.get("name"),
+            )
+            new_user_data = ResUserData(
+                holding_id=ObjectId(old_data.get("holding_id")) if old_data.get("holding_id") else None,
+                school_id=ObjectId(_id),
+                student_id=ObjectId(student_data.get("_id")),
+                login=username,
+                name=i.get("name"),
+                authority_id=ObjectId(authority_data.get("_id")),
+                authority_ids=[ObjectId(authority_data.get("_id"))],
+                authority_codes=[authority_data.get("code")],
+                is_student=True,
+                is_active=True,
+            )
+            new_auth_user_data = AuthenticationUserData(
+                school_id=_id,
+                holding_id=str(old_data.get("holding_id")),
+                school_code=old_data.get("code"),
+                username=new_user_data.login,
+                password=new_user_data.password,
+                role=",".join(new_user_data.authority_codes),
+                is_staff=False,
+                is_active=True,
+                is_company_active=True,
+            )
+            input_user_data.append(new_user_data)
+            input_auth_user_data.append(new_auth_user_data)
+            update_student_data.append(
+                {
+                    "_id": i.get("_id"),
+                    "set_data": {"user_id": new_user_data._id, "login": username},
+                }
+            )
+        SecurityValidator.validate_data(input_user_data, input_auth_user_data)
+        if input_user_data:
+            ResUser().insert_many(input_user_data)
+        if input_auth_user_data:
+            UserService().bulk_create_users(input_auth_user_data)
+        if update_student_data:
+            SchoolStudent().update_many_different_data(update_student_data)
+        return {
+            "data": {"id": str(_id)},
+            "message": None,
+        }
+
 
     @staticmethod
     def upload_logo(

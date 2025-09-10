@@ -69,6 +69,12 @@ class MainViewSet(BaseViewSet):
             "serializer": None,
             "roles": [Role.SUPERADMIN, Role.HOLDING_ADMIN, Role.ADMINISTRATOR],
         },
+        "student_account": {
+            "detail": True,
+            "method": HTTPMethod.PUT,
+            "serializer": None,
+            "roles": [Role.SUPERADMIN, Role.HOLDING_ADMIN, Role.ADMINISTRATOR],
+        },
         "upload_logo": {
             "detail": True,
             "method": HTTPMethod.PUT,
