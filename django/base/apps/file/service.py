@@ -9,7 +9,7 @@ class MainService(BaseService):
     def create(model: BaseModel, validated_data, extra, user, headers_dict=None):
         url = FileStorageUtil.upload_aws(validated_data.get("file"), "tiptap_rte")
         if len(url) > 0:
-            return {"src": url[0]}
+            return {"type": "raw", "src": url[0]}
 
         return {
             "data": {},
