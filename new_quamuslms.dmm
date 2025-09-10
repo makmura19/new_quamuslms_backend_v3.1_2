@@ -38270,7 +38270,7 @@
 		"ac7aed23-9961-4ec6-b9fc-01d9b8aaa453": {
 			"id": "ac7aed23-9961-4ec6-b9fc-01d9b8aaa453",
 			"visible": true,
-			"name": "config_psb",
+			"name": "psb_psb",
 			"desc": "",
 			"estimatedSize": "",
 			"cols": [
@@ -38425,6 +38425,22 @@
 					"estimatedSize": "",
 					"any": "",
 					"fk": true
+				},
+				{
+					"id": "da80b99b-5388-4e51-80d7-911bb57eb87b",
+					"name": "fee",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"data": "",
+					"enum": "",
+					"validation": "",
+					"pattern": false,
+					"estimatedSize": "",
+					"any": ""
 				},
 				{
 					"id": "fb88f9c4-992f-40ef-a836-f992837087b0",
@@ -38610,7 +38626,7 @@
 				},
 				{
 					"id": "8fdcc0de-daaa-426b-9a0b-64db0445706a",
-					"name": "config_id",
+					"name": "psb_id",
 					"datatype": "objectId",
 					"param": "",
 					"pk": false,
@@ -38804,7 +38820,7 @@
 				},
 				{
 					"id": "bda61e79-62bf-4ac4-a402-27146ee6232b",
-					"name": "config_id",
+					"name": "psb_id",
 					"datatype": "objectId",
 					"param": "",
 					"pk": false,
@@ -39094,7 +39110,7 @@
 				},
 				{
 					"id": "6afc079c-1bd2-4f58-b78c-f501568ab3c6",
-					"name": "config_id",
+					"name": "psb_id",
 					"datatype": "objectId",
 					"param": "",
 					"pk": false,
@@ -39255,7 +39271,7 @@
 				},
 				{
 					"id": "271f6b42-5323-4945-acff-ea6391682ad6",
-					"name": "config_id",
+					"name": "psb_id",
 					"datatype": "objectId",
 					"param": "",
 					"pk": false,
@@ -52296,7 +52312,7 @@
 		"replaceSpace": "_",
 		"color": "transparent",
 		"sideSelections": true,
-		"isDirty": false,
+		"isDirty": true,
 		"storedin": {
 			"major": 7,
 			"minor": 4,
@@ -52316,7 +52332,7 @@
 		"def_validationAction": "na",
 		"def_collation": "",
 		"def_others": "",
-		"lastSaved": 1756948531720
+		"lastSaved": 1757463613263
 	},
 	"otherObjects": {},
 	"diagrams": {
@@ -54617,7 +54633,7 @@
 					"referencedItemId": "ac7aed23-9961-4ec6-b9fc-01d9b8aaa453",
 					"x": 7912,
 					"y": 6468,
-					"gHeight": 279,
+					"gHeight": 297,
 					"gWidth": 243,
 					"color": "#ffffff",
 					"background": "#3f51b5",
@@ -54646,7 +54662,7 @@
 				"749a3db2-9f2b-4c8a-b603-14c5c36bdaa1": {
 					"referencedItemId": "749a3db2-9f2b-4c8a-b603-14c5c36bdaa1",
 					"x": 8399,
-					"y": 6630,
+					"y": 6631,
 					"gHeight": 243,
 					"gWidth": 257,
 					"color": "#ffffff",
