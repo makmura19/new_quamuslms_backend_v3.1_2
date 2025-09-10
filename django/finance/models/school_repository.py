@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Optional, List
 from bson import ObjectId
+from datetime import datetime, timezone
 
 from marshmallow import Schema, fields as ma_fields, validate
 from helpers.base_model import BaseModel
@@ -22,9 +23,11 @@ class SchoolRepositoryData:
     url: Optional[str] = field(default=None)
     size: Optional[int] = field(default=None)
     size_name: Optional[str] = field(default=None)
+    date: Optional[datetime] = field(default_factory=lambda: datetime.now(timezone.utc))
     is_public: Optional[bool] = field(default=False)
     is_admin: Optional[bool] = field(default=False)
     is_teacher: Optional[bool] = field(default=False)
+    is_active: Optional[bool] = field(default=False)
 
 
 class SchoolRepositorySchema(Schema):
@@ -60,9 +63,11 @@ class SchoolRepositorySchema(Schema):
     url = ma_fields.String(required=False, allow_none=True)
     size = ma_fields.Integer(required=False, allow_none=True)
     size_name = ma_fields.String(required=False, allow_none=True)
+    date = ma_fields.DateTime(required=True)
     is_public = ma_fields.Boolean(required=True)
     is_admin = ma_fields.Boolean(required=True)
     is_teacher = ma_fields.Boolean(required=True)
+    is_active = ma_fields.Boolean(required=True)
     _id = ObjectIdField(required=False, allow_none=True)
 
 
