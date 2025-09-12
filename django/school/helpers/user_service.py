@@ -193,7 +193,7 @@ class UserService:
     def assign_authority_to_users(usernames, authority):
         users = User.objects.filter(username__in=usernames)
         for user in users:
-            user.authority = authority
+            user.role = authority
             user.save()
         return users.count()
 

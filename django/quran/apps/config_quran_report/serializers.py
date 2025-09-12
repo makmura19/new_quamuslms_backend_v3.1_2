@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from helpers.base_serializer import BaseSerializer
-from models.school_school import SchoolSchool
-from models.lms_report_type import LmsReportType
+from models.quran_report_type import QuranReportType
 from constants.params_validation_type import ParamsValidationType
 
 
@@ -32,6 +31,21 @@ class SignatureSerializer(serializers.Serializer):
     quamus = serializers.BooleanField(required=True)
 
 
+class LabelSerializer(serializers.Serializer):
+    principal = serializers.CharField(required=True, allow_blank=True)
+    coordinator = serializers.CharField(required=True, allow_blank=True)
+    parent = serializers.CharField(required=True, allow_blank=True)
+    title = serializers.CharField(required=True, allow_blank=True)
+    periodic_title = serializers.CharField(required=True, allow_blank=True)
+    place = serializers.CharField(required=True, allow_blank=True)
+    address = serializers.CharField(required=True, allow_blank=True)
+
+
+class ComponentScoreSerializer(serializers.Serializer):
+    is_daily = serializers.BooleanField(required=True)
+    is_exam = serializers.BooleanField(required=True)
+
+
 class ReportRubricSerializer(serializers.Serializer):
     letter = serializers.CharField(required=True)
     name = serializers.CharField(required=True)
@@ -39,20 +53,22 @@ class ReportRubricSerializer(serializers.Serializer):
     lte = serializers.IntegerField(required=True, min_value=0, max_value=100)
 
 
-class CreateSerializer(BaseSerializer):
+class UpdateMeSerializer(BaseSerializer):
     type_id = serializers.CharField(required=True)
     student_info = StudentInfoSerializer(required=True)
     header = HeaderSerializer(required=True)
     signature = SignatureSerializer(required=True)
-    report_rubric = serializers.ListField(
-        child=ReportRubricSerializer(), required=True
-    )
+    label = LabelSerializer(required=True)
+    use_chapter_recap = serializers.BooleanField(required=True)
+    total_rule = serializers.ChoiceField(choices=[None, "accumulative", "average"], allow_null=True)
+    component_score = ComponentScoreSerializer(required=True)
+    report_rubric = ReportRubricSerializer(many=True, required=True)
 
     class Meta:
         validate_model = {
             "type_id": {
                 "field": "_id",
-                "model": LmsReportType(),
+                "model": QuranReportType(),
                 "type": ParamsValidationType.OBJECT_ID,
-            },
+            }
         }

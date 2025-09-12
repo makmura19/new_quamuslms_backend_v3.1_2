@@ -26750,11 +26750,11 @@
 				{
 					"id": "9e9529da-2043-48ff-8093-be2b75cec9a6",
 					"name": "purpose",
-					"datatype": "enum",
+					"datatype": "string",
 					"param": "",
 					"pk": false,
 					"nn": true,
-					"list": false,
+					"list": true,
 					"comment": "",
 					"data": "",
 					"enum": "[\"bill\",\"canteen\"]",
@@ -39021,6 +39021,38 @@
 					"estimatedSize": "",
 					"any": "",
 					"fk": true
+				},
+				{
+					"id": "d9228676-df15-4032-b442-88f1f648c15a",
+					"name": "name",
+					"datatype": "string",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"data": "",
+					"enum": "",
+					"validation": "",
+					"pattern": false,
+					"estimatedSize": "",
+					"any": ""
+				},
+				{
+					"id": "cd29ade3-05f5-4401-9c8b-de7e28ce6966",
+					"name": "qty",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"data": "",
+					"enum": "",
+					"validation": "",
+					"pattern": false,
+					"estimatedSize": "",
+					"any": ""
 				},
 				{
 					"id": "7ac51412-8fe9-459e-a3e6-7d699126443c",
@@ -53403,7 +53435,7 @@
 		"replaceSpace": "_",
 		"color": "transparent",
 		"sideSelections": true,
-		"isDirty": false,
+		"isDirty": true,
 		"storedin": {
 			"major": 7,
 			"minor": 4,
@@ -53423,7 +53455,7 @@
 		"def_validationAction": "na",
 		"def_collation": "",
 		"def_others": "",
-		"lastSaved": 1757546516382
+		"lastSaved": 1757561198233
 	},
 	"otherObjects": {},
 	"diagrams": {
@@ -55466,8 +55498,8 @@
 				},
 				"bd451783-659d-4d3c-b4db-8019750fbdb7": {
 					"referencedItemId": "bd451783-659d-4d3c-b4db-8019750fbdb7",
-					"x": 9148,
-					"y": 2892,
+					"x": 9235,
+					"y": 2810,
 					"gHeight": 387,
 					"gWidth": 257,
 					"color": "#ffffff",
@@ -55739,7 +55771,7 @@
 					"referencedItemId": "bd6ba1a6-a140-4e9a-8877-1e525f68a6f2",
 					"x": 8378,
 					"y": 5807,
-					"gHeight": 189,
+					"gHeight": 225,
 					"gWidth": 222,
 					"color": "#ffffff",
 					"background": "#3f51b5",
@@ -55782,8 +55814,8 @@
 				},
 				"eee94908-b2fb-4dc9-bb57-1a3d4af143cf": {
 					"referencedItemId": "eee94908-b2fb-4dc9-bb57-1a3d4af143cf",
-					"x": 8381,
-					"y": 6035,
+					"x": 8378,
+					"y": 6059,
 					"gHeight": 261,
 					"gWidth": 261,
 					"color": "#ffffff",

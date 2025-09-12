@@ -1,4 +1,4 @@
-from models.config_mutabaah import ConfigMutabaah
+from models.config_quran import ConfigQuran
 from helpers.base_viewset import BaseViewSet
 from constants.access import Role
 from constants.params_validation_type import ParamsValidationType
@@ -9,9 +9,9 @@ from .service import MainService
 
 
 class MainViewSet(BaseViewSet):
-    model = ConfigMutabaah()
+    model = ConfigQuran()
     service = MainService()
-    data_name = "ConfigMutabaah"
+    data_name = "ConfigQuran"
 
     actions = {
         "retrieve": {
@@ -27,5 +27,5 @@ class MainViewSet(BaseViewSet):
     }
 
     params_validation = {
-        "school_id": ParamsValidationType.OBJECT_ID,
+        "school_id":ParamsValidationType.OBJECT_ID
     }

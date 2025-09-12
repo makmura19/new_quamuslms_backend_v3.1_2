@@ -89,6 +89,7 @@ class ConfigQuran(BaseModel):
             "local": "coordinator_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id,name",
             "model": lambda: __import__(
                 "models.school_teacher"
             ).school_teacher.SchoolTeacher(),
@@ -97,6 +98,7 @@ class ConfigQuran(BaseModel):
             "local": "teacher_ids",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id,name",
             "model": lambda: __import__(
                 "models.school_teacher"
             ).school_teacher.SchoolTeacher(),

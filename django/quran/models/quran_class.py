@@ -58,6 +58,7 @@ class QuranClass(BaseModel):
             "local": "school_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, code, name",
             "model": lambda: __import__(
                 "models.school_school"
             ).school_school.SchoolSchool(),
@@ -66,6 +67,7 @@ class QuranClass(BaseModel):
             "local": "academic_year_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name, year",
             "model": lambda: __import__(
                 "models.edu_academic_year"
             ).edu_academic_year.EduAcademicYear(),
@@ -74,6 +76,7 @@ class QuranClass(BaseModel):
             "local": "teacher_id",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name, staff_no",
             "model": lambda: __import__(
                 "models.school_teacher"
             ).school_teacher.SchoolTeacher(),
@@ -82,6 +85,7 @@ class QuranClass(BaseModel):
             "local": "teacher_ids",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name, staff_no",
             "model": lambda: __import__(
                 "models.school_teacher"
             ).school_teacher.SchoolTeacher(),
@@ -90,6 +94,7 @@ class QuranClass(BaseModel):
             "local": "student_ids",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name, nis",
             "model": lambda: __import__(
                 "models.school_student"
             ).school_student.SchoolStudent(),
@@ -98,6 +103,7 @@ class QuranClass(BaseModel):
             "local": "target_ids",
             "foreign": "_id",
             "sort": None,
+            "fields": "_id, name",
             "model": lambda: __import__(
                 "models.quran_target"
             ).quran_target.QuranTarget(),

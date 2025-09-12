@@ -35,10 +35,9 @@ class MainService(BaseService):
 
     @staticmethod
     def create(model: BaseModel, validated_data, extra, user, headers_dict=None):
-        
         new_invoice_data = PsbInvoiceData(
             holding_id=ObjectId(validated_data.get("holding_id")) if validated_data.get("holding_id") else None,
-            school_id=ObjectId(validated_data.get("school_id")) if validated_data.get("holding_id") else None,
+            school_id=ObjectId(validated_data.get("school_id")) if validated_data.get("school_id") else None,
             invoice_type_id=ObjectId(validated_data.get("invoice_type_id")),
             month=validated_data.get("month", []),
             semester=validated_data.get("semester", []),

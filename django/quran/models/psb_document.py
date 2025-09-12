@@ -3,6 +3,8 @@ from typing import Optional, List
 from bson import ObjectId
 
 from marshmallow import Schema, fields as ma_fields
+from marshmallow import validate
+
 from helpers.base_model import BaseModel
 from helpers.custom_model_field import ObjectIdField
 from utils.dict_util import DictUtil
@@ -15,6 +17,8 @@ class PsbDocumentData:
     school_id: Optional[ObjectId] = field(default=None)
     psb_id: ObjectId
     school_ids: Optional[List[ObjectId]] = field(default_factory=list)
+    name: str
+    qty: int
     is_active: bool
 
 
@@ -23,6 +27,8 @@ class PsbDocumentSchema(Schema):
     school_id = ObjectIdField(required=False, allow_none=True)
     psb_id = ObjectIdField(required=True, allow_none=False)
     school_ids = ma_fields.List(ObjectIdField(), required=True)
+    name = ma_fields.String(required=True)
+    qty = ma_fields.Integer(required=True)
     is_active = ma_fields.Boolean(required=True)
     _id = ObjectIdField(required=False, allow_none=True)
 
@@ -31,7 +37,7 @@ class PsbDocument(BaseModel):
     type_id = DictUtil.get_id_type_from_dataclass(PsbDocumentData)
     collection_name = "psb_document"
     schema = PsbDocumentSchema
-    search = []
+    search = ["name"]
     object_class = PsbDocumentData
     foreign_key = {
         "holding": {

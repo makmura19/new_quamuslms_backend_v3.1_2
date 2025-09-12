@@ -14,7 +14,8 @@ class MainService(BaseService):
         existing = PsbDocument().find_one({
             "holding_id": ObjectId(value.get("holding_id")) if value.get("holding_id") else None,
             "school_id": ObjectId(value.get("school_id")) if value.get("school_id") else None,
-            "psb_id": ObjectId(value.get("psb_id"))
+            "psb_id": ObjectId(value.get("psb_id")),
+            "name": value.get("name")
         })
         if existing:
             raise ValidationError("Data sudah ada.")
@@ -44,9 +45,12 @@ class MainService(BaseService):
             holding_id=ObjectId(validated_data.get("holding_id")) if validated_data.get("holding_id") else None,
             school_id=ObjectId(validated_data.get("school_id")) if validated_data.get("school_id") else None,
             psb_id=ObjectId(validated_data.get("psb_id")),
+            name=validated_data.get("name"),
+            qty=validated_data.get("qty"),
             school_ids=school_ids,
             is_active=validated_data.get("is_active",True)
         )
+        print("new_document_data",new_document_data)
         SecurityValidator.validate_data(new_document_data)
         result = model.insert_one(new_document_data, user)
         PsbPsb().update_one(

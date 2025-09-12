@@ -26,4 +26,6 @@ class MainViewSet(BaseViewSet):
         },
     }
 
-    params_validation = {}
+    params_validation = {
+        "school_id": ParamsValidationType.OBJECT_ID,
+    }

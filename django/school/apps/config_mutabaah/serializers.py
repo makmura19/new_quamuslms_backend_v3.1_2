@@ -4,8 +4,8 @@ from constants.params_validation_type import ParamsValidationType
 
 
 class UpdateMeSerializer(BaseSerializer):
-    use_group = serializers.CharField(required=True)
-    use_class = serializers.CharField(required=True)
+    use_group = serializers.BooleanField(required=True)
+    use_class = serializers.BooleanField(required=True)
     score_format = serializers.ChoiceField(choices=["letter", "number"])
 
     class Meta:

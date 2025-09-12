@@ -10,6 +10,8 @@ class CreateSerializer(BaseSerializer):
     holding_id = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     school_id = serializers.CharField(required=True, allow_null=True, allow_blank=True)
     psb_id = serializers.CharField(required=True)
+    name = serializers.CharField(required=True)
+    qty = serializers.IntegerField(required=True)
     is_active = serializers.BooleanField()
 
     class Meta:
