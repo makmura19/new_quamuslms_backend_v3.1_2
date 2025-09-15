@@ -83,6 +83,9 @@ class MainService(BaseService):
         import jwt
         from django.conf import settings
         from models.res_partner import ResPartner
+        from models.edu_academic_year import EduAcademicYear
+
+        academic_year = EduAcademicYear().get_active()
 
         res_user = ResUser()
         res_partner = ResPartner()
@@ -115,6 +118,7 @@ class MainService(BaseService):
                     "module_ids": school_data.get("module_ids"),
                     "module_codes": school_data.get("module_codes"),
                     "logo_md": school_data.get("logo_md"),
+                    "academic_year": academic_year,
                 },
             }
         else:
