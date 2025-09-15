@@ -1,17 +1,17 @@
-from models.psb_psb import PsbPsb
+from models.quran_target_group import QuranTargetGroup
 from helpers.base_viewset import BaseViewSet
 from constants.access import Role
 from constants.params_validation_type import ParamsValidationType
 from constants.http_method import HTTPMethod
 
-from .serializers import CreateSerializer, UpdateStaffSerializer
+from .serializers import CreateSerializer
 from .service import MainService
 
 
 class MainViewSet(BaseViewSet):
-    model = PsbPsb()
+    model = QuranTargetGroup()
     service = MainService()
-    data_name = "PsbPsb"
+    data_name = "QuranTargetGroup"
 
     actions = {
         "list": {
@@ -27,27 +27,22 @@ class MainViewSet(BaseViewSet):
         "create": {
             "method": HTTPMethod.POST,
             "serializer": CreateSerializer,
-            "roles": [Role.SUPERADMIN, Role.HOLDING_ADMIN, Role.HOLDING_STAFF, Role.ADMINISTRATOR],
+            "roles": [Role.SUPERADMIN, Role.ADMINISTRATOR],
         },
         "update": {
             "method": HTTPMethod.PUT,
             "serializer": CreateSerializer,
-            "roles": [Role.SUPERADMIN, Role.HOLDING_ADMIN, Role.HOLDING_STAFF, Role.ADMINISTRATOR],
+            "roles": [Role.SUPERADMIN, Role.ADMINISTRATOR],
         },
         "destroy": {
             "method": HTTPMethod.DELETE,
             "serializer": None,
-            "roles": [Role.SUPERADMIN, Role.HOLDING_ADMIN, Role.HOLDING_STAFF, Role.ADMINISTRATOR]
+            "roles": [Role.SUPERADMIN, Role.ADMINISTRATOR],
         },
-        "staff": {
-            "method": HTTPMethod.PUT,
-            "serializer": UpdateStaffSerializer,
-            "roles": [Role.SUPERADMIN, Role.HOLDING_ADMIN, Role.HOLDING_STAFF, Role.ADMINISTRATOR],
-        }
     }
 
     params_validation = {
-        "holding_id": ParamsValidationType.OBJECT_ID,
         "school_id": ParamsValidationType.OBJECT_ID,
+        "program_type": ParamsValidationType.STRING,
         "is_active": ParamsValidationType.BOOLEAN
     }
