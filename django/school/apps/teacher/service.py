@@ -191,3 +191,39 @@ class MainService(BaseService):
         return {
             "message": None,
         }
+        
+    @staticmethod
+    def my_subject(
+        model: BaseModel, query_params, params_validation, user, headers_dict=None
+    ):
+        from models.res_user import ResUser
+        from models.school_class_subject import SchoolClassSubject
+        from models.edu_academic_year import EduAcademicYear
+        from constants.params_validation_type import ParamsValidationType
+        
+        acd_year = EduAcademicYear()
+        subjects = SchoolClassSubject()
+        
+        result = {}
+        teacher = ResUser().find_one({"login": str(user)})
+        if not teacher:
+            raise ValidationError("Data user tidak valid.")
+        teacher_id = teacher.get("teacher_id")
+        
+        query_params.update({
+            "academic_year_id": acd_year.get_active().get("_id"),
+            "teacher_ids": teacher_id
+        })
+        params_validation = {
+            "academic_year_id": ParamsValidationType.OBJECT_ID,
+            "teacher_ids": ParamsValidationType.OBJECT_ID
+        }
+        result = subjects.aggregate(
+            add_metadata=True,
+            query_params=query_params,
+            params_validation=params_validation,
+            fields=query_params.get("fields"),
+            exclude=query_params.get("exclude"),
+            lookup=["class", "teachers", "subject"]
+        )
+        return result

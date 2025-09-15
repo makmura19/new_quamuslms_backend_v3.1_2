@@ -117,9 +117,12 @@ class AccountAccount(BaseModel):
         if not existing_data:
             return None
         child_ids = [ObjectId(i) for i in existing_data.get("child_ids")]
-        child_data = self.find({"_id":{"$in":child_ids}})
-        child_code = [int(i.get("code")) for i in child_data]
-        last_code = max(child_code) + 1
+        if child_ids:
+            child_data = self.find({"_id":{"$in":child_ids}})
+            child_code = [int(i.get("code")) for i in child_data]
+            last_code = max(child_code) + 1
+        else:
+            last_code = int(parent_code)+1
         return f"{last_code}", existing_data
 
     def get_parent(self, parent_code, holding_id, school_id):
@@ -133,7 +136,6 @@ class AccountAccount(BaseModel):
 
     def create_account(self, parent_code, holding_id, school_id, name, user=None):
         from models.school_school import SchoolSchool
-
         map = {
             "tuition_income": "Pendapatan",
             "student_receivable": "Piutang",

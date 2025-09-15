@@ -86,7 +86,7 @@ class MainService(BaseService):
             "phone": validated_data.get("phone"),
             "is_alumni": validated_data.get("is_alumni"),
             "is_boarding": validated_data.get("is_boarding"),
-            # is_active=validated_data.get("is_active"),
+            "is_active":validated_data.get("is_active"),
         }
         model.update_one({"_id":ObjectId(_id)},update_student_data, user=user)
         return {
@@ -483,7 +483,7 @@ class MainService(BaseService):
         )
         authority_data = ResAuthority().find_one({"code": Role.STUDENT})
         new_user_data = ResUserData(
-            holding_id=ObjectId(old_student_data.get("holding_id")),
+            holding_id=ObjectId(old_student_data.get("holding_id")) if old_student_data.get("holding_id") else None,
             school_id=ObjectId(old_student_data.get("school_id")),
             student_id=ObjectId(_id),
             login=username,
@@ -497,7 +497,7 @@ class MainService(BaseService):
         )
         new_auth_data = AuthenticationUserData(
             school_id=str(old_student_data.get("school_id")),
-            holding_id=str(old_student_data.get("holding_id")),
+            holding_id=str(old_student_data.get("holding_id")) if old_student_data.get("holding_id") else "",
             school_code=school_data.get("code"),
             username=new_user_data.login,
             password=new_user_data.password,

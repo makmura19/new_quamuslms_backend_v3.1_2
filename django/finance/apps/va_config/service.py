@@ -7,6 +7,7 @@ import json
 from models.finance_va_config import FinanceVaConfig, FinanceVaConfigData
 from models.account_account import AccountAccount
 from models.school_school import SchoolSchool
+from models.school_holding import SchoolHolding
 
 
 class MainService(BaseService):
@@ -27,16 +28,16 @@ class MainService(BaseService):
 
     @staticmethod
     def create(model: BaseModel, validated_data, extra, user, headers_dict=None):
-        account = AccountAccount().find_one({
-            "holding_id": ObjectId(validated_data.get("holding_id")) if validated_data.get("holding_id") else None,
-            "school_id": ObjectId(validated_data.get("school_id")) if validated_data.get("school_id") else None,
-            "code": "1200"
-        })
+        school_id = ObjectId(validated_data.get("school_id")) if validated_data.get("school_id") else None
+        holding_id=ObjectId(validated_data.get("holding_id")) if validated_data.get("holding_id") else None
         name = f"{extra.get('res_bank',{}).get('short_name')} {validated_data.get('account_no')} An. {validated_data.get('account_name')}{validated_data.get('purpose')}"
+        
+        bank_coa_id = AccountAccount().create_account("1200", holding_id, school_id, name, user)
+        
         new_va_config_data = FinanceVaConfigData(
             bank_id=ObjectId(validated_data.get("bank_id")),
             vendor_id=ObjectId(validated_data.get("vendor_id")),
-            coa_id=ObjectId(account.get("_id")),
+            coa_id=bank_coa_id,
             holding_id=ObjectId(validated_data.get("holding_id")) if validated_data.get("holding_id") else None,
             school_id=ObjectId(validated_data.get("school_id")) if validated_data.get("school_id") else None,
             school_ids=[ObjectId(sid) for sid in extra.get("school_holding",{}).get("school_ids")] if validated_data.get("holding_id") else [ObjectId(validated_data.get("school_id"))],
@@ -88,6 +89,25 @@ class MainService(BaseService):
             lookup=["bank", "vendor", "coa", "holding", "school", "schools"]
         )
         return result
+
+    @staticmethod
+    def update(
+        model: BaseModel, _id, old_data, validated_data, extra, user, headers_dict=None
+    ):
+        from utils.id_util import IDUtil
+        school_ids = old_data.get("school_ids")
+        if old_data.get("holding_id"):
+            holding = SchoolHolding().find_one({"_id": ObjectId(old_data.get("holding_id"))})
+            if holding:
+                school_ids = holding.get("school_ids")
+        name = f"{extra.get('res_bank',{}).get('short_name')} {validated_data.get('account_no')} An. {validated_data.get('account_name')}{validated_data.get('purpose')}"
+        validated_data.update({"school_ids": school_ids, "name": name})
+        _id = IDUtil.parse(_id, model.type_id)
+        model.update_one({"_id": _id}, update_data=validated_data, user=user)
+        return {
+            "data": {"id": str(_id)},
+            "message": None,
+        }
     
     @staticmethod
     def destroy(model: BaseModel, _id, old_data, user, headers_dict=None):

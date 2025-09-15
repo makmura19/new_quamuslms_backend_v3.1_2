@@ -15,7 +15,7 @@ class CreateSerializer(BaseSerializer):
     prefix = serializers.CharField(required=True)
     account_no = serializers.CharField(required=True)
     account_name = serializers.CharField(required=True)
-    purpose = serializers.CharField(required=True)
+    purpose = serializers.ListField(child=serializers.CharField(required=True))
     fee = serializers.IntegerField(required=True)
     partner_id = serializers.CharField(required=True)
     client_id = serializers.CharField(required=True)

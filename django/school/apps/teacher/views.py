@@ -19,6 +19,11 @@ class MainViewSet(BaseViewSet):
             "serializer": None,
             "roles": [Role.ALL],
         },
+        "my_subject": {
+            "method": HTTPMethod.GET,
+            "serializer": None,
+            "roles": [Role.ALL],
+        },
         "retrieve": {
             "method": HTTPMethod.GET,
             "serializer": None,

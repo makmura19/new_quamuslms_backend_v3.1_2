@@ -298,8 +298,8 @@ class MainService(BaseService):
                 is_active=True,
             )
             new_auth_user_data = AuthenticationUserData(
-                school_id=_id,
-                holding_id=str(old_data.get("holding_id")),
+                school_id=str(_id),
+                holding_id=str(old_data.get("holding_id")) if old_data.get("holding_id") else "",
                 school_code=old_data.get("code"),
                 username=new_user_data.login,
                 password=new_user_data.password,
@@ -366,8 +366,8 @@ class MainService(BaseService):
                 is_active=True,
             )
             new_auth_user_data = AuthenticationUserData(
-                school_id=_id,
-                holding_id=str(old_data.get("holding_id")),
+                school_id=str(_id),
+                holding_id=str(old_data.get("holding_id")) if old_data.get("holding_id") else "",
                 school_code=old_data.get("code"),
                 username=new_user_data.login,
                 password=new_user_data.password,

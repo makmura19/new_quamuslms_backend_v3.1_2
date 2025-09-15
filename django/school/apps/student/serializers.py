@@ -46,7 +46,7 @@ class UpdateSerializer(BaseSerializer):
     phone = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     is_alumni = serializers.BooleanField(required=True)
     is_boarding = serializers.BooleanField(required=True)
-    # is_active = serializers.BooleanField(required=True)----???
+    is_active = serializers.BooleanField(required=True)
 
     class Meta:
         validate_model = {}

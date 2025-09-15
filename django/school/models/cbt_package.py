@@ -11,9 +11,11 @@ from utils.dict_util import DictUtil
 @dataclass(kw_only=True)
 class CbtPackageData:
     _id: Optional[ObjectId] = field(default_factory=lambda: ObjectId())
+    academic_year_id: ObjectId
     school_id: ObjectId
     teacher_id: ObjectId
     subject_id: ObjectId
+    edu_subject_id: ObjectId
     level_id: ObjectId
     name: str
     question_ids: Optional[List[ObjectId]] = field(default_factory=list)
@@ -22,9 +24,11 @@ class CbtPackageData:
 
 
 class CbtPackageSchema(Schema):
+    academic_year_id = ObjectIdField(required=True, allow_none=False)
     school_id = ObjectIdField(required=True, allow_none=False)
     teacher_id = ObjectIdField(required=True, allow_none=False)
     subject_id = ObjectIdField(required=True, allow_none=False)
+    edu_subject_id = ObjectIdField(required=True, allow_none=False)
     level_id = ObjectIdField(required=True, allow_none=False)
     name = ma_fields.String(required=True)
     question_ids = ma_fields.List(ObjectIdField(), required=True)

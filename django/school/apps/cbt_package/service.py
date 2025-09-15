@@ -58,10 +58,15 @@ class MainService(BaseService):
 
     @staticmethod
     def create(model: BaseModel, validated_data, extra, user, headers_dict=None):
+        from models.edu_academic_year import EduAcademicYear
+        
+        academic_year_data = EduAcademicYear().get_active()
         new_package_data = CbtPackageData(
+            academic_year_id=ObjectId(academic_year_data.get("_id")),
             school_id=extra.get("school_id"),
             teacher_id=extra.get("teacher_id"),
             subject_id=ObjectId(validated_data.get("subject_id")),
+            edu_subject_id=ObjectId(extra.get("school_subject").get("subject_id")) if extra.get("school_subject").get("subject_id") else None,
             level_id=ObjectId(validated_data.get("level_id")),
             name=validated_data.get("name"),
             is_public=validated_data.get("is_public"),

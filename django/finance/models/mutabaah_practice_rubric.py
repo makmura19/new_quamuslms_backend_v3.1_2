@@ -10,14 +10,14 @@ from utils.dict_util import DictUtil
 
 @dataclass(kw_only=True)
 class RubricItemData:
-    gt: int
+    gte: int
     lte: int
     score: int
     description: str
 
 
 class RubricItemSchema(Schema):
-    gt = ma_fields.Integer(required=True)
+    gte = ma_fields.Integer(required=True)
     lte = ma_fields.Integer(required=True)
     score = ma_fields.Integer(required=True)
     description = ma_fields.String(required=True)
